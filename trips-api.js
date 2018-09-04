@@ -11,6 +11,7 @@ const router = express.Router();
 
 const GEOCODE_BASE_URL = 'https://geocoder.api.here.com/6.2/geocode.json';
 const EXPLORE_BASE_URL = 'https://places.api.here.com/places/v1/discover/explore';
+const LOOKUP_BASE_URL = 'https://places.api.here.com/places/v1/places/lookup';
 // todo: all categoris or user selects https://developer.here.com/documentation/places/topics/categories.html
 const CATEGORIES = 'leisure-outdoor,eat-drink';
 const APP_ID = process.env.HERE_APP_ID || private.HERE_APP_ID;
@@ -36,7 +37,7 @@ router.get('/external-pois', (req, res) => {
         })
         .then((position) => {
             // Get POIs for latitude and longitude
-            const poisUrl = `${EXPLORE_BASE_URL}?app_id=${APP_ID}&app_code=${APP_CODE}&at=${position.Latitude},${position.Longitude}&cat=${CATEGORIES}`;
+            const poisUrl = `${EXPLORE_BASE_URL}?app_id=${APP_ID}&app_code=${APP_CODE}&at=${position.Latitude},${position.Longitude}&cat=${CATEGORIES}&show_refs=sharing`;
             const poisOptions = {
                 uri: poisUrl,
                 headers: { 'User-Agent': 'Request-Promise' },
@@ -47,12 +48,11 @@ router.get('/external-pois', (req, res) => {
                     const pois = [];
                     body.results.items.forEach(poi => {
                         const poiObj = {};
-                        poiObj.title = poi.title;
+                        poiObj.name = poi.title;
                         poiObj.category = poi.category.title;
-                        poiObj.iconUrl = poi.icon;
-                        poiObj.externalId = poi.id;
-                        poiObj.position = poi.position;
-                        poiObj.vicinity = poi.vicinity;
+                        poiObj.categoryIcon = poi.icon;
+                        poiObj.externalId = poi.references.sharing.id;
+                        poiObj.address = poi.vicinity;
                         pois.push(poiObj)
                     });
                     res.json(pois);
@@ -104,12 +104,39 @@ router.post('/trips/:tripId/pois', (req, res) => {
             if (poi) {
                 // If it exists -> update ref in trip
                 Trip.findOneAndUpdate({ _id: tripId }, { $push: { pois: poi } }, { new: true })
-                .then(trip => res.json(trip))
-                .catch(err => handleError(err));
+                    .then(trip => res.json(trip))
+                    .catch(err => handleError(err));
             }
             else {
                 // If it doesn't exist -> create POI in DB and update ref in trip
-
+                // Get POI's details from here.com
+                const poiUrl = `${LOOKUP_BASE_URL}?app_id=${APP_ID}&app_code=${APP_CODE}&source=sharing&id=${externalId}`;
+                const poiOptions = {
+                    uri: poiUrl,
+                    headers: { 'User-Agent': 'Request-Promise' },
+                    json: true
+                };
+                request(poiOptions)
+                    .then((rawPoi) => {
+                        const poiObj = {};
+                        poiObj.name = rawPoi.name;
+                        poiObj.category = rawPoi.categories[0].title;
+                        poiObj.categoryIcon = rawPoi.icon;
+                        poiObj.externalId = externalId;
+                        poiObj.position = rawPoi.location.position;
+                        poiObj.address = rawPoi.location.address.text;
+                        poiObj.country = rawPoi.location.address.country;
+                        poiObj.mapLink = rawPoi.view;
+                        const newPoi = new POI(poiObj);
+                        newPoi.save()
+                            .then(createdPoi => {
+                                Trip.findOneAndUpdate({ _id: tripId }, { $push: { pois: createdPoi } }, { new: true })
+                                    .then(trip => res.json(trip))
+                                    .catch(err => handleError(err));
+                            })
+                            .catch((err) => handleError(err));
+                    })
+                    .catch((err) => handleError(err));
             }
         })
         .catch(err => handleError(err));

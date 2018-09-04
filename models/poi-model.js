@@ -1,12 +1,14 @@
 const mongoose = require('mongoose');
 
 let poiSchema = new mongoose.Schema({
-    title: String,
+    name: String,
     category: String,
-    iconUrl: String,
+    categoryIcon: String,
     externalId: String,
     position: [Number],
-    vicinity: String
+    address: String,
+    country: String,
+    mapLink: String
 });
 
 let Poi = mongoose.model('poi', poiSchema);

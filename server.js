@@ -8,8 +8,8 @@ const moment = require('moment');
 const SERVER_PORT = process.env.PORT || 8080;
 const DB_URI = process.env.CONNECTION_STRING || 'mongodb://localhost/triplanner';
 
-const dbPromise = mongoose.connect(DB_URI, { useMongoClient: true });
-dbPromise.then((db) => console.log(`${getTimestamp()} - Connection to DB '${db.name}' established`));
+const dbPromise = mongoose.connect(DB_URI, { useNewUrlParser: true });
+dbPromise.then((db) => console.log(`${getTimestamp()} - Connected to DB '${db.name}'`));
 
 const tripsApi = require("./trips-api");
 

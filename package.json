@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/AkivaRanells/triPlanner#readme",
   "dependencies": {
+    "debug": "^3.1.0",
     "express": "^4.16.3",
     "moment": "^2.22.2",
     "mongoose": "^5.2.12",

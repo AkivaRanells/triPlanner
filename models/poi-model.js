@@ -7,6 +7,8 @@ let poiSchema = new mongoose.Schema({
     externalId: String,
     position: [Number],
     address: String,
+    city: String,
+    district: String,
     country: String,
     mapLink: String
 });

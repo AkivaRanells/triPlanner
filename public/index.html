@@ -14,7 +14,6 @@
                 <div class="page-header">
                     <h1>triPlanner</h1>
                 </div>
-                <div class="trips"></div>
                 <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#exampleModal">
                     Create a New Trip
                 </button>
@@ -69,12 +68,13 @@
                 </form>
             </div>
         </div>
+        <div class="trips"></div>
     </div>
     <script id="trip-template" type="text/x-handlebars-template">
         <div class="container">
             <div class="row">
                 <div class="col">
-                    <div class="trip" data-id="{{_id}}">{{trip1}}
+                    <div class="trip" data-id="{{_id}}">Trip:{{name}}, 
                         <button type="button" class="btn btn-danger remove-trip">Delete Trip</button>
                         <div class="poi-container">
                                 <ul class="poi-list"></ul>
@@ -88,7 +88,7 @@
     <script id="poi-template" type="text/x-handlebars-template">
         <div class="row">
                 <div class="col">
-                    <li class="poi" data-id="{{_id}}">{{location}}
+                    <li class="poi" data-id="{{_id}}">Title:{{title}}, Category{{category}}
                         <button type="button" class="btn btn-sm btn-danger remove-poi">Delete Point Of Interest</button>
                     </li>
                 </div>

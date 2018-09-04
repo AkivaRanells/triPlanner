@@ -4,7 +4,7 @@
 */
 class TripsRepository {
     constructor() {
-        this.trips = [{trip1: "paris summer", poi:[{location: "Louvre"}]}];
+        this.trips = [];
     }
     //addTrip to array
     addTrip(tripFromDB) {

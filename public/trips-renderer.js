@@ -27,8 +27,8 @@ class TripsRenderer {
         let $poiList = $(trip).find('.poi-list');
         $poiList.empty();
         let template = Handlebars.compile(this.$poiTemplate);
-        for (let i = 0; i < trips[tripIndex].poi.length; i++) {
-          let newHTML = template(trips[tripIndex].poi[i]);
+        for (let i = 0; i < trips[tripIndex].pois.length; i++) {
+          let newHTML = template(trips[tripIndex].pois[i]);
           $poiList.after(newHTML);
         }
     }

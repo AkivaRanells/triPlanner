@@ -21,7 +21,7 @@ app.use(express.static('public'));
 app.use(express.static('node_modules'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-// app.use("/", tripsApi);
+app.use("/", tripsApi);
 // Error handling
 app.use(function (req, res) { res.status(404).json({ message: 'Page not found' }); });
 app.use(function (error, req, res, next) {

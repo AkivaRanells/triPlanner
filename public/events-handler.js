@@ -6,9 +6,12 @@ class EventsHandler {
         this.$trips = $(".trips");
     }
 
-    registerAddTrip() {
-        $('#addtrip').on('click', () => {
-            let $input = $("#postText");
+    registerCreateTrip() {
+        $('#add-trip').on('click', () => {
+            let tripName = $("#trip-name");
+            let tripStart = $("#start");
+            let tripStart = 
+            let newTrip = {name:}
             if ($input.val() === "") {
                 alert("Please enter text!");
             } else {

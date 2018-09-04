@@ -29,7 +29,7 @@ class TripsRenderer {
         let template = Handlebars.compile(this.$poiTemplate);
         for (let i = 0; i < trips[tripIndex].poi.length; i++) {
           let newHTML = template(trips[tripIndex].poi[i]);
-          $poiList.append(newHTML);
+          $poiList.after(newHTML);
         }
     }
 }

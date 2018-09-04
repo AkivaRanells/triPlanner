@@ -1,9 +1,13 @@
-import TripsRepository from './trips-repository';
-import TripsRenderer from './trips-renderer';
-
+import TripsRepository from './trips-repository.js';
+import TripsRenderer from './trips-renderer.js';
+import AjaxUtil from './ajax-util.js';
+import EventsHandler from './events-handler.js';
 let tripsRepository = new TripsRepository();
 let tripsRenderer = new TripsRenderer();
-
-import AjaxUtil from './ajax-util';
 let ajaxUtil = new AjaxUtil();
-ajaxUtil.getAjax();
+let eventsHandler = new EventsHandler(tripsRepository,tripsRenderer);
+eventsHandler.registerCreateTrip();
+tripsRenderer.renderTrips(tripsRepository.trips);
+
+
+// ajaxUtil.getAjax();

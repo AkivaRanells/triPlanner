@@ -5,7 +5,7 @@ let tripSchema = new mongoose.Schema({
     description: String,
     fromDate: Date,
     toDate: Date, //todo: limit to >= fromDate
-    pois: [{ type: Schema.Types.ObjectId, ref: 'poi' }]
+    pois: [{ type: mongoose.Schema.Types.ObjectId, ref: 'poi' }]
 });
 
 let Trip = mongoose.model('trip', tripSchema);

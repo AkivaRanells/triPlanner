@@ -14,6 +14,7 @@ eventsHandler.registerSearchResults();
 eventsHandler.registerSelectTrip();
 eventsHandler.registerDeleteTrip();
 eventsHandler.registerDeletePoi();
+eventsHandler.registerAddPoiToTrip();
 
 //pull trips from database on init
 let initTrips = () => ajaxUtil.getAjax("GET", "/trips");

@@ -129,7 +129,7 @@
     <script id="poi-template" type="text/x-handlebars-template">
         <div class="row">
                 <div class="col">
-                    <li class="poi" data-id="{{_id}}">Title:{{title}}, Category{{category}}
+                    <li class="poi" data-id="{{_id}}">Title:{{name}}, Category:{{category}}
                         <button type="button" class="btn btn-sm btn-danger remove-poi">Delete Point Of Interest</button>
                     </li>
                 </div>
@@ -142,6 +142,15 @@
             <option value="{{id}}">{{title}}</option>
         {{/each}}
     </script>
+
+    <script id="search-results-template" type="text/x-handlebars-template">
+        <ul>
+            {{#each results}}
+                <li><a class="resultItem" href="" data-id="{{externalId}}">{{name}}</a><button type="button" class="btn btn-info">&plus;</button></li>
+            {{/each}}
+        </ul>
+    </script>
+    
 
     <!-- External scripts -->
     <script src="jquery/dist/jquery.min.js"></script>

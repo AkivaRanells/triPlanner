@@ -29,19 +29,21 @@ class EventsHandler {
     }
 
     registerSearchLocation(){
-        $('#search').on('click', (x)=>{
+        $('#searchForm').on('submit', (x)=>{
             x.preventDefault();
             let text = $('#searchText').val();
-            console.log(text);
             let category = $('#categories').val();// todo debug
-            console.log(category);
             this.ajaxUtil.getAjax("GET", "/external-location?q="+text+"&catid="+category)
             .then((res)=>{
-                console.log(res);//todo debug
-                
+                // console.log(res);//todo debug
+                this.tripsRenderer.renderSearchResults(res);
             })
             .catch(err=>{console.log(err)});
         })
+    }
+
+    registerSearchResults(){
+        
     }
 
     registerAddPoiToTrip(){

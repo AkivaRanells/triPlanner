@@ -7,8 +7,8 @@ let tripsRenderer = new TripsRenderer();
 let ajaxUtil = new AjaxUtil();
 let eventsHandler = new EventsHandler(tripsRepository,tripsRenderer, ajaxUtil);
 eventsHandler.registerCreateTrip();
-tripsRenderer.renderTrips(tripsRepository.trips);
-
+eventsHandler.registerSearchLocation();
+eventsHandler.registerSearchResults();
 //pull trips from database on init
 let initTrips = ()=> ajaxUtil.getAjax("GET", "/trips");
 initTrips()
@@ -22,7 +22,7 @@ initTrips()
 let initCategories = ()=> ajaxUtil.getAjax("GET", "/categories");
 initCategories()
 .then((categories)=>{
-    console.log(categories);
+    // console.log(categories);
     tripsRenderer.renderCategories(categories);//todo debug
 })
 .catch(err=>{console.log(err)});

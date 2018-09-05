@@ -32,3 +32,6 @@
 .search-list-item{
     margin: 10px;
 }
+#searchText{
+    width: 100%;
+}

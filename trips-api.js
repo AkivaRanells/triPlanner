@@ -14,9 +14,7 @@ const GEOCODE_BASE_URL = 'https://geocoder.api.here.com/6.2/geocode.json';
 const EXPLORE_BASE_URL = 'https://places.api.here.com/places/v1/discover/explore';
 const LOOKUP_BASE_URL = 'https://places.api.here.com/places/v1/places/lookup';
 const CATEGORIES_BASE_URL = 'https://places.api.here.com/places/v1/categories/places';
-// ========== todo: all categories or user selection:
-// ========== https://developer.here.com/documentation/places/topics/categories.html
-// const CATEGORIES = 'eat-drink';
+
 const APP_ID = process.env.HERE_APP_ID || private.HERE_APP_ID;
 const APP_CODE = process.env.HERE_APP_CODE || private.HERE_APP_CODE;
 
@@ -62,26 +60,26 @@ router.get('/external-location', wrap(async (req, res, next) => {
 
 // Get POI by external ID, external API - here.com
 router.get('/external-poi', wrap(async (req, res, next) => {
-    const { poi } = req.query;
-    const poiUrl = `${LOOKUP_BASE_URL}?app_id=${APP_ID}&app_code=${APP_CODE}&source=sharing&id=${poi}`;
+    const { poiid } = req.query;
+    const poiUrl = `${LOOKUP_BASE_URL}?app_id=${APP_ID}&app_code=${APP_CODE}&source=sharing&id=${poiid}`;
     const poiOptions = {
         uri: poiUrl,
         headers: { 'User-Agent': 'Request-Promise' },
         json: true
     };
     let rawPoi = await request(poiOptions);
-    const poiObj = {};
-    poiObj.name = rawPoi.name;
-    poiObj.category = rawPoi.categories[0].title;
-    poiObj.categoryIcon = rawPoi.icon;
-    poiObj.externalId = poi;
-    poiObj.position = rawPoi.location.position;
-    poiObj.address = rawPoi.location.address.text;
-    poiObj.city = rawPoi.location.address.city;
-    poiObj.district = rawPoi.location.address.district;
-    poiObj.country = rawPoi.location.address.country;
-    poiObj.mapLink = rawPoi.view;
-    res.json(poiObj);
+    const poi = {};
+    poi.name = rawPoi.name;
+    poi.category = rawPoi.categories[0].title;
+    poi.categoryIcon = rawPoi.icon;
+    poi.externalId = poiid;
+    poi.position = rawPoi.location.position;
+    poi.address = rawPoi.location.address.text;
+    poi.city = rawPoi.location.address.city;
+    poi.district = rawPoi.location.address.district;
+    poi.country = rawPoi.location.address.country;
+    poi.mapLink = rawPoi.view;
+    res.json(poi);
 }));
 
 // Get available location categories from here.com
@@ -93,7 +91,6 @@ router.get('/categories', wrap(async (req, res, next) => {
         json: true
     };
     let response = await request(categoryOptions);
-    console.log(response.items[0].title);
     const rawCategories = response.items;
     const categories = [];
     rawCategories.forEach(c => {
@@ -156,9 +153,9 @@ router.post('/trips/:tripId/pois', wrap(async (req, res, next) => {
             headers: { 'User-Agent': 'Request-Promise' },
             json: true
         };
-        let poiObj = await request(poiOptions);
+        let poi = await request(poiOptions);
         // Create new POI in DB
-        const newPoi = new POI(poiObj);
+        const newPoi = new POI(poi);
         let createdPoi = await newPoi.save();
         // Update ref in trip
         let trip = await Trip.findOneAndUpdate({ _id: tripId }, { $push: { pois: createdPoi } }, { new: true });
@@ -170,7 +167,7 @@ router.post('/trips/:tripId/pois', wrap(async (req, res, next) => {
 router.delete('/trips/:tripId/pois/:poiId', wrap(async (req, res, next) => {
     const { tripId, poiId } = req.params;
     let trip = await Trip.findOneAndUpdate({ _id: tripId }, { $pull: { pois: poiId } }, { new: true });
-    // ========== todo: also delete unused POIs from pois collection
+    // ========== todo: check if exists in other trips, otherwise delete POI
     res.status(204).json(trip);
 }));
 

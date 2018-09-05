@@ -53,17 +53,17 @@ class EventsHandler {
     }
 
     registerAddPoiToTrip() {
-        $('#searchResults').on('click', '.btn-info', (e)=>{
+        $('#searchResults').on('click', '.btn-info', (e) => {
             e.preventDefault();
             let tripId = $('#tripSelector').val();
             let externalId = $(e.currentTarget).closest('li').find('a').data().id;
-            this.ajaxUtil.getAjax("POST","/trips/"+tripId+"/pois", {externalId:externalId}, "json")
-            .then((res)=>{
-                this.tripsRepository.addPoi(res, tripId);
-                const trip = this.tripsRepository.getTripById(tripId);
-                this.tripsRenderer.renderTripPois(trip);
-            })
-            .catch(err=>{console.log(err)});
+            this.ajaxUtil.getAjax("POST", "/trips/" + tripId + "/pois", { externalId: externalId }, "json")
+                .then((res) => {
+                    this.tripsRepository.addPoi(res, tripId);
+                    const trip = this.tripsRepository.getTripById(tripId);
+                    this.tripsRenderer.renderTripPois(trip);
+                })
+                .catch(err => { console.log(err) });
         })
     }
 

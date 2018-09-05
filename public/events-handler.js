@@ -71,6 +71,22 @@ class EventsHandler {
         })
     }
 
+    registerAddPoiToTripFromModal() {
+        $('#addPoiFromModal').on('click', (e)=>{
+            e.preventDefault();
+            let tripId = $('#tripSelector').val();
+            let externalId = $(e.currentTarget).closest('.modal-content').find('.container-fluid').data().id;
+            this.ajaxUtil.getAjax("POST","/trips/"+tripId+"/pois", {externalId:externalId}, "json")
+            .then((res)=>{
+                this.tripsRepository.addPoi(res, tripId);
+                const trip = this.tripsRepository.getTripById(tripId);
+                this.tripsRenderer.renderTripPois(trip);
+                $('#clickedResultModal').modal('hide');
+            })
+            .catch(err=>{console.log(err)});
+        })
+    }
+
 
     registerSelectTrip() {
         $('#tripSelector').on('change', event => {

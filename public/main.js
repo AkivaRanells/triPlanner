@@ -13,6 +13,7 @@ eventsHandler.registerSearchLocation();
 eventsHandler.registerSearchResults();
 eventsHandler.registerSelectTrip();
 eventsHandler.registerDeleteTrip();
+eventsHandler.registerDeletePoi();
 eventsHandler.registerAddPoiToTrip();
 
 //pull trips from database on init

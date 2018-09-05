@@ -18,9 +18,14 @@ class EventsHandler {
             let newTrip = { name: tripName, fromDate: tripStart, toDate: tripEnd, description: desc };
             this.ajaxUtil.getAjax("POST", "/trips", newTrip, "json")
                 .then((newDBObject) => {
-                    this.tripsRepository.addTrip(newDBObject);
+                    const newId = this.tripsRepository.addTrip(newDBObject);
                     this.tripsRenderer.renderTrips(this.tripsRepository.trips);
+                    this.tripsRenderer.renderTripPois(this.tripsRepository.getTripById(newId));
+                    $("#tripSelector").val(newId).show();
+                    $('#tripsWrapper').show();
+                    $('#emptyMessage').hide();
                     $('#exampleModal').modal('hide');
+                    $(e.currentTarget)[0].reset();
                 })
                 .catch(err => { console.log(err) });
         });
@@ -39,15 +44,15 @@ class EventsHandler {
         })
     }
 
-    registerSearchResults(){
-        $('#searchResults').on('click','a', (e)=>{
+    registerSearchResults() {
+        $('#searchResults').on('click', 'a', (e) => {
             e.preventDefault();
             let externalId = $(e.currentTarget).data().id;
-            this.ajaxUtil.getAjax("GET", "/external-poi?poiid="+externalId)
-            .then((res)=>{
-                this.tripsRenderer.renderClickedResult(res);
-            })
-            .catch(err=>{console.log(err)});
+            this.ajaxUtil.getAjax("GET", "/external-poi?poiid=" + externalId)
+                .then((res) => {
+                    this.tripsRenderer.renderClickedResult(res);
+                })
+                .catch(err => { console.log(err) });
         })
     }
 
@@ -95,6 +100,19 @@ class EventsHandler {
                         $('#tripSelector').hide();
                         $('#emptyMessage').show();
                     }
+                })
+                .catch(err => { console.log(err) });
+        });
+    }
+
+    registerDeletePoi() {
+        $('#tripPois').on('click', '.delete-poi', event => {
+            const tripId = $('#tripSelector').val();
+            const poiId = $(event.currentTarget).closest('.poi-details').data().id;
+            this.ajaxUtil.getAjax("DELETE", `/trips/${tripId}/pois/${poiId}`)
+                .then(response => {
+                    this.tripsRepository.removePoi(tripId, poiId);
+                    this.tripsRenderer.renderTripPois(this.tripsRepository.getTripById(tripId));
                 })
                 .catch(err => { console.log(err) });
         });

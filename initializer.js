@@ -4,41 +4,53 @@ const POI = require('./models/poi-model');
 // Initialize DB with dummy data
 function initDB() {
     const poi1 = new POI({
-        "title": "Taverne Henri IV",
-        "category": "Coffee/Tea",
-        "iconUrl": "https://download.vcdn.data.here.com/p/d/places2/icons/categories/23.icon",
-        "externalId": "s-Yz1jb2ZmZWUtdGVhO2lkPTI1MHUwOXR2LWIyYzY5ODUwM2QwYjRiOTRiMjhiNjZjMzc3YzdhY2I4O2xhdD00OC44NTc7bG9uPTIuMzQxNDg7bj1UYXZlcm5lK0hlbnJpK0lWO25sYXQ9NDguODU3MDk7bmxvbj0yLjM0MTM3O2g9MTQzYjM3",
+        "name": "Notre Dame Cathedral",
+        "category": "Religious Place",
+        "categoryIcon": "https://download.vcdn.data.here.com/p/d/places2/icons/categories/39.icon",
+        "externalId": "s-Yz1yZWxpZ2lvdXMtcGxhY2U7aWQ9MjUwdTA5dHYtMDRmNTZiZDgyOTZkNDlhMjllOTk2YmM3ZmYwNzc2MmQ7bGF0PTQ4Ljg1MzEzO2xvbj0yLjM0ODg2O249Tm90cmUrRGFtZStDYXRoZWRyYWw7bmxhdD00OC44NTMxMztubG9uPTIuMzQ4ODY7aD02YTc4MTM",
         "position": [
-            48.857,
-            2.341481
+            48.85313,
+            2.34886
         ],
-        "vicinity": "13 Place du Pont-Neuf<br/>75001 Paris"
+        "address": "6 Parvis Notre-Dame<br/>75004 Paris<br/>France",
+        "city": "Paris",
+        "district": "4e Arrondissement",
+        "country": "France",
+        "mapLink": "https://share.here.com/p/s-Yz1yZWxpZ2lvdXMtcGxhY2U7aWQ9MjUwdTA5dHYtMDRmNTZiZDgyOTZkNDlhMjllOTk2YmM3ZmYwNzc2MmQ7bGF0PTQ4Ljg1MzEzO2xvbj0yLjM0ODg2O249Tm90cmUrRGFtZStDYXRoZWRyYWw7bmxhdD00OC44NTMxMztubG9uPTIuMzQ4ODY7cGg9JTJCMzMxNDIzNDU2MTA7aD0zZDI2NjM"
     });
     poi1.save();
 
     const poi2 = new POI({
-        "title": "Les Voyelles",
-        "category": "Coffee/Tea",
-        "iconUrl": "https://download.vcdn.data.here.com/p/d/places2/icons/categories/23.icon",
-        "externalId": "s-Yz1jb2ZmZWUtdGVhO2lkPTI1MGp4N3BzLTgyOWNjZmM5N2RjZjA3OWU4Mzk4NThmNjI5YWU3YjIwO2xhdD00OC44NTY3OTtsb249Mi4zNDE0OTtuPUxlcytWb3llbGxlcztubGF0PTQ4Ljg1Njc1O25sb249Mi4zNDEzMTtoPTM4MTIzNg",
+        "name": "Centre Pompidou",
+        "category": "Sights & Museums",
+        "categoryIcon": "https://download.vcdn.data.here.com/p/d/places2/icons/categories/10.icon",
+        "externalId": "s-Yz1zaWdodHMtbXVzZXVtcztpZD0yNTB1MDl0di02OTYyOGJhZGVkNmU0M2MzOGQ5OTBkYWU4YWNiMGJiYTtsYXQ9NDguODYwNjU7bG9uPTIuMzUxOTg7bj1DZW50cmUrUG9tcGlkb3U7bmxhdD00OC44NjA2NTtubG9uPTIuMzUxOTg7aD1kN2IxNA",
         "position": [
-            48.85679,
-            2.34149
+            48.86065,
+            2.35198
         ],
-        "vicinity": "74 Quai des Orfèvres<br/>75001 Paris"
+        "address": "19 Rue Beaubourg<br/>75004 Paris<br/>France",
+        "city": "Paris",
+        "district": "4e Arrondissement",
+        "country": "France",
+        "mapLink": "https://share.here.com/p/s-Yz1zaWdodHMtbXVzZXVtcztpZD0yNTB1MDl0di02OTYyOGJhZGVkNmU0M2MzOGQ5OTBkYWU4YWNiMGJiYTtsYXQ9NDguODYwNjU7bG9uPTIuMzUxOTg7bj1DZW50cmUrUG9tcGlkb3U7bmxhdD00OC44NjA2NTtubG9uPTIuMzUxOTg7cGg9JTJCMzMxNDQ3ODEyMzM7aD01NDI0NjQ"
     });
     poi2.save();
 
     const poi3 = new POI({
-        "title": "Sequana",
-        "category": "Restaurant",
-        "iconUrl": "https://download.vcdn.data.here.com/p/d/places2/icons/categories/03.icon",
-        "externalId": "s-Yz1yZXN0YXVyYW50O2lkPTI1MGFhYmQxLTY1ZjM3MWJiMzYxZTBiNDA4N2U5NmVjYzIyYjc0ZWU0O2xhdD00OC44NTY3NTtsb249Mi4zNDE1NDtuPVNlcXVhbmE7bmxhdD00OC44NTY2OTtubG9uPTIuMzQxNDI7aD0zYzVlMmI",
+        "name": "National Gallery",
+        "category": "Sights & Museums",
+        "categoryIcon": "https://download.vcdn.data.here.com/p/d/places2/icons/categories/10.icon",
+        "externalId": "s-Yz1zaWdodHMtbXVzZXVtcztpZD04MjZnY3B2ai00Njc0NGI5ZmY0Yjk0Yjc2YWJlNDAyYzhhZGY2OWQzMTtsYXQ9NTEuNTA4NTM7bG9uPS0wLjEyNzk0O249TmF0aW9uYWwrR2FsbGVyeTtubGF0PTUxLjUwODUzO25sb249LTAuMTI3OTQ7aD0yNDU1Mw",
         "position": [
-        48.85675,
-        2.34154
+            51.50853,
+            -0.12794
         ],
-        "vicinity": "72 Quai des Orfèvres<br/>Paris"
+        "address": "Trafalgar Square<br/>WC2<br/>London<br/>WC2N 5<br/>United Kingdom",
+        "city": "London",
+        "district": "WC2",
+        "country": "United Kingdom",
+        "mapLink": "https://share.here.com/p/s-Yz1zaWdodHMtbXVzZXVtcztpZD04MjZnY3B2ai00Njc0NGI5ZmY0Yjk0Yjc2YWJlNDAyYzhhZGY2OWQzMTtsYXQ9NTEuNTA4NTM7bG9uPS0wLjEyNzk0O249TmF0aW9uYWwrR2FsbGVyeTtubGF0PTUxLjUwODUzO25sb249LTAuMTI3OTQ7cGg9JTJCNDQyMDc4MzkzMzIxO2g9NjE0Njdj"
     });
     poi3.save();
 

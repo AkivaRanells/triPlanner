@@ -10,3 +10,21 @@
     margin-top: 10px;
     font-size: 1rem;
 }
+
+.hidden {
+    display: none;
+}
+
+.category-thumb{
+    width: 32px;
+}
+
+.poi-details{
+    font-size: 0.9rem;
+    list-style-type: none;
+}
+
+#tripPois {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}

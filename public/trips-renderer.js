@@ -14,6 +14,20 @@ class TripsRenderer {
         this.$searchResults = $('#searchResults');
         this.$searchResultsTemplate = $('#search-results-template').html();
         this.$tripPoisTemplate = $('#trip-pois-template').html();
+
+        this.intlData = {
+            "locales": "en-US",
+            "formats": {
+                "date": {
+                    "short": {
+                        "day": "numeric",
+                        "month": "short",
+                        "year": "numeric"
+                    }
+                }
+            }
+        };
+        HandlebarsIntl.registerWith(Handlebars);
     }
 
     renderTrips(trips) {
@@ -37,21 +51,21 @@ class TripsRenderer {
     renderCategories(categories) {
         this.$categories.empty();
         let template = Handlebars.compile(this.$categoryTemplate);
-        let newHTML = template({categories: categories});
+        let newHTML = template({ categories: categories });
         // console.log(newHTML);
         this.$categories.append(newHTML);
     }
 
-    renderSearchResults(results){
+    renderSearchResults(results) {
         this.$searchResults.empty();
         let template = Handlebars.compile(this.$searchResultsTemplate);
-        let newHTML = template({results: results});
+        let newHTML = template({ results: results });
         this.$searchResults.append(newHTML);
     }
     renderTripPois(trip) {
         this.$tripPois.empty();
         let template = Handlebars.compile(this.$tripPoisTemplate);
-        let newHTML = template({ pois: trip.pois });
+        let newHTML = template({ trip: trip, pois: trip.pois }, { data: { intl: this.intlData } });
         this.$tripPois.html(newHTML);
     }
 }

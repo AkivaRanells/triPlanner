@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- External Styles -->
     <link rel="stylesheet" type="text/css" media="screen" href="bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="@fortawesome/fontawesome-free/css/all.css" />
     <!-- Styles -->
     <link rel="stylesheet" type="text/css" media="screen" href="style.css" />
     <title>triPlanner</title>
@@ -18,8 +19,8 @@
         <a class="navbar-brand" href="#">
             <img src="./images/triplan.svg" height="50" alt="triPlanner">
         </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+            aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -34,6 +35,10 @@
                     <a class="nav-link" href="#">About</a>
                 </li>
             </ul>
+            <form class="form-inline">
+                <select class="custom-select mr-sm-2 hidden" id="tripSelector" required>
+                </select>
+            </form>
         </div>
     </nav>
 
@@ -48,17 +53,13 @@
                 <form id="searchForm" class="form-inline trip-form">
                     <input class="form-control mr-sm-2" type="text" id="searchText" placeholder="Location" required />
                     <select class="custom-select mr-sm-2" id="categories" required>
-                        <!-- remove - only for dev -->
-                        <!-- <option value="">Choose Category...</option>
-                        <option value="test2">test2</option> -->
                     </select>
                     <button type="submit" id="search" class="btn btn-primary">Search</button>
                 </form>
                 <div id="searchResults"></div>
 
                 <!--Bootstrap Modal for trip creating -->
-                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                    aria-hidden="true">
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -73,7 +74,7 @@
                                     <div class="form-group">
                                         <div class="row">
                                             <div class="col">
-                                                <input class="form-control" id="trip-name" type="text" placeholder="The name of your trip here: e.g. &#34Paris in the summer&#34"
+                                                <input class="form-control" id="tripName" type="text" placeholder="The name of your trip here: e.g. &#34Paris in the summer&#34"
                                                     required />
                                             </div>
                                         </div>
@@ -86,8 +87,7 @@
                                             </div>
                                         </div>
                                         <label for="description">Description:</label>
-                                        <input class="form-control" type="text" id="description" name="trip"
-                                            placeholder="e.g. mine and elena's summer trip to paris">
+                                        <input class="form-control" type="text" id="description" name="trip" placeholder="e.g. mine and elena's summer trip to paris">
                                         <button type="submit" id="add-trip" class="btn btn-primary">Submit</button>
                                     </div>
 
@@ -105,39 +105,22 @@
             <!-- Sidebar -->
             <div class="col-sm-4 side">
                 <!-- Empty message -->
-                <div id="emptyMessage" class="card border-danger">
+                <div id="emptyMessage" class="card border-danger hidden">
                     <div class="card-body text-danger">
                         You don't have any trips planned yet.
-                        <br>
-                        Go ahead and <a href="#" class="card-link" data-toggle="modal" data-target="#exampleModal">create</a>
+                        <br> Go ahead and <a href="#" class="card-link" data-toggle="modal" data-target="#exampleModal">create</a>
                         your first one!
                     </div>
                 </div>
 
                 <!-- Trips area -->
-                <select class="custom-select mr-sm-2" id="tripSelector" required>
-                </select>
-                <div id="tripPois"></div>
+                <div id="tripsWrapper" class="hidden">
+                    <div id="tripPois"></div>
+                </div>
             </div>
         </div>
 
     </div>
-
-    <!-- Handlebars templates -->
-    <!-- <script id="trip-template" type="text/x-handlebars-template">
-        <div class="container">
-            <div class="row">
-                <div class="col">
-                    <div class="trip" data-id="{{_id}}">Trip:{{name}}, 
-                        <button type="button" class="btn btn-danger remove-trip">Delete Trip</button>
-                        <div class="poi-container">
-                                <ul class="poi-list"></ul>
-                        </div>
-                    </div>
-                </div>
-            </div>   
-        </div>
-    </script> -->
 
     <script id="poi-template" type="text/x-handlebars-template">
         <div class="row">
@@ -163,7 +146,7 @@
             {{/each}}
         </ul>
     </script>
-    
+
     <script id="trip-select-template" type="text/x-handlebars-template">
         {{#each trips}}
             <option value="{{_id}}">{{name}}</option>
@@ -171,17 +154,39 @@
     </script>
 
     <script id="trip-pois-template" type="text/x-handlebars-template">
-        {{#each pois}}
-            <div>
-                <h4>{{name}}</h4>
-                <img class="category-thumb" src="{{categoryIcon}}"> {{category}}
+        <div class="card">
+                <div class="card-body trip-details" data-id="{{trip._id}}">
+                <h5 class="card-title">{{trip.name}}</h5>
+                {{#if trip.fromDate}}
+                    <h6 class="card-subtitle mb-2 text-muted">
+                        {{formatDate trip.fromDate "short"}} - {{formatDate trip.toDate "short"}}
+                    </h6>
+                {{/if}}
+                {{#if trip.description}}
+                    <p class="card-text">{{trip.description}}</p>
+                {{/if}}
+                <a id="deleteBtn" href="#" class="card-link" alt="Delete"><i class="fas fa-trash-alt"></i></a>
             </div>
-        {{/each}}
+            <ul class="list-group list-group-flush">
+                {{#each pois}}
+                    <li class="list-group-item">
+                        <img class="category-thumb" src="{{categoryIcon}}"> <a href="#"><b>{{name}}</b></a>
+                        <ul class="poi-details">
+                            <li><b>{{category}}</b></li>
+                            <li>{{{city}}}, {{{country}}}</li>
+                        </ul>
+                        <a href="#" class="card-link deletePoi" alt="Delete"><i class="fas fa-trash-alt"></i></a>
+                    </li>
+                {{/each}}
+            </ul>
+        </div>
+ 
     </script>
 
     <!-- External scripts -->
     <script src="jquery/dist/jquery.min.js"></script>
     <script src="handlebars/dist/handlebars.min.js"></script>
+    <script src="handlebars-intl/dist/handlebars-intl.min.js"></script>
     <script src="bootstrap/dist/js/bootstrap.min.js"></script>
 
     <!-- Scripts -->

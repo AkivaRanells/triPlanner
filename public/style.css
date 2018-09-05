@@ -1,0 +1,16 @@
+.main {
+    /* background-color: lightcoral; */
+}
+
+.side {
+    background-color: lightgreen;
+}
+
+.trip-form * {
+    margin-bottom: 10px;
+}
+
+.search-title {
+    margin-top: 10px;
+    font-size: 1rem;
+}

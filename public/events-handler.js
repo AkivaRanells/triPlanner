@@ -20,6 +20,7 @@ class EventsHandler {
                 .then((newDBObject) => {
                     this.tripsRepository.addTrip(newDBObject);
                     this.tripsRenderer.renderTrips(this.tripsRepository.trips);
+                    this.tripsRenderer.renderTripPois(this.tripsRepository.trips[this.tripsRepository.trips.length - 1]);
                     $('#exampleModal').modal('hide');
                 })
                 .catch(err => { console.log(err) });
@@ -39,15 +40,15 @@ class EventsHandler {
         })
     }
 
-    registerSearchResults(){
-        $('#searchResults').on('click','a', (e)=>{
+    registerSearchResults() {
+        $('#searchResults').on('click', 'a', (e) => {
             e.preventDefault();
             let externalId = $(e.currentTarget).data().id;
-            this.ajaxUtil.getAjax("GET", "/external-poi?poiid="+externalId)
-            .then((res)=>{
-                this.tripsRenderer.renderClickedResult(res);
-            })
-            .catch(err=>{console.log(err)});
+            this.ajaxUtil.getAjax("GET", "/external-poi?poiid=" + externalId)
+                .then((res) => {
+                    this.tripsRenderer.renderClickedResult(res);
+                })
+                .catch(err => { console.log(err) });
         })
     }
 

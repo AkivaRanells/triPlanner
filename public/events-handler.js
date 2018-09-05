@@ -16,12 +16,12 @@ class EventsHandler {
             let desc = $('#description').val();
             let newTrip = {name:tripName, fromDate:tripStart,toDate:tripEnd,description:desc};
             // console.log(newTrip);
-                this.ajaxUtil("POST", "/trips", newTrip, "json")
+                this.ajaxUtil.getAjax("POST", "/trips", newTrip, "json")
                     .then((newDBObject) => {
                         console.log("after ajax: "+JSON.stringify(newDBObject))
-                        this.tripsRepository.addPost(newDBObject);
-                        console.log(this.tripsRepository.posts);
-                        this.tripsRenderer.renderPosts(this.tripsRepository.trips);
+                        this.tripsRepository.addTrip(newDBObject);
+                        console.log(this.tripsRepository.trips);
+                        this.tripsRenderer.renderTrips(this.tripsRepository.trips);
                         return;
                     })
         });
@@ -30,6 +30,8 @@ class EventsHandler {
     registerSearchLocation(){
 
     }
+
+    register
 
 }
 

@@ -22,6 +22,7 @@ class TripsRepository {
     deleteComment(tripIndex, poiIndex) {
         this.trips[tripIndex].poi.splice(poiIndex, 1);
       };
+      //add find poiId and find tripId change from index to id 
 }
 
 export default TripsRepository

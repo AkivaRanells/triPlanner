@@ -29,9 +29,10 @@ class EventsHandler {
     }
 
     registerSearchLocation(){
-        $('#search').on('submit', (x)=>{
+        $('#search').on('click', (x)=>{
             x.preventDefault();
             let text = $('#searchText').val();
+            console.log(text);
             let category = $('#categories').val();// todo debug
             console.log(category);
             this.ajaxUtil.getAjax("GET", "/external-location?q="+text+"&catid="+category)

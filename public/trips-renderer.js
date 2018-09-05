@@ -14,6 +14,8 @@ class TripsRenderer {
         this.$searchResults = $('#searchResults');
         this.$searchResultsTemplate = $('#search-results-template').html();
         this.$tripPoisTemplate = $('#trip-pois-template').html();
+        this.$clickedResults = $('#bodyClickedResultModal');
+        this.$clickedResultsTemplate = $('#clicked-result-template').html();
     }
 
     renderTrips(trips) {
@@ -53,6 +55,13 @@ class TripsRenderer {
         let template = Handlebars.compile(this.$tripPoisTemplate);
         let newHTML = template({ pois: trip.pois });
         this.$tripPois.html(newHTML);
+    }
+
+    renderClickedResult(poi){
+        this.$clickedResults.empty();
+        let template = Handlebars.compile(this.$clickedResultsTemplate);
+        let newHTML = template(poi);
+        this.$clickedResults.html(newHTML);
     }
 }
 

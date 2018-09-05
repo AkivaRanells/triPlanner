@@ -48,8 +48,9 @@
                 <form id="searchForm" class="form-inline trip-form">
                     <input class="form-control mr-sm-2" type="text" id="searchText" placeholder="Location" required />
                     <select class="custom-select mr-sm-2" id="categories" required>
-                        <option value="">Choose Category...</option> <!-- remove - only for dev -->
-                        <option value="test2">test2</option> <!-- remove - only for dev -->
+                        <!-- remove - only for dev -->
+                        <!-- <option value="">Choose Category...</option>
+                        <option value="test2">test2</option> -->
                     </select>
                     <button type="submit" id="search" class="btn btn-primary">Search</button>
                 </form>
@@ -79,11 +80,9 @@
                                         <div class="row">
                                             <div class="col">
                                                 <label for="start">From</label>
-                                                <input type="date" id="start" name="trip" value="2018-07-22" min="2018-01-01"
-                                                    max="2018-12-31" />
+                                                <input type="date" id="start" name="trip" />
                                                 <label for="end">To</label>
-                                                <input type="date" id="end" name="trip" value="2018-07-29" min="2018-01-01"
-                                                    max="2018-12-31" />
+                                                <input type="date" id="end" name="trip" />
                                             </div>
                                         </div>
                                         <label for="description">Description:</label>
@@ -104,7 +103,22 @@
             </div>
 
             <!-- Sidebar -->
-            <div class="col-sm-4 side">col-sm-4</div>
+            <div class="col-sm-4 side">
+                <!-- Empty message -->
+                <div id="emptyMessage" class="card border-danger">
+                    <div class="card-body text-danger">
+                        You don't have any trips planned yet.
+                        <br>
+                        Go ahead and <a href="#" class="card-link" data-toggle="modal" data-target="#exampleModal">create</a>
+                        your first one!
+                    </div>
+                </div>
+
+                <!-- Trips area -->
+                <select class="custom-select mr-sm-2" id="tripSelector" required>
+                </select>
+                <div id="tripPois"></div>
+            </div>
         </div>
 
     </div>
@@ -140,6 +154,12 @@
         <option value="">Choose Category...</option>
         {{#each categories}}
             <option value="{{id}}">{{title}}</option>
+        {{/each}}
+    </script>
+
+    <script id="trip-select-template" type="text/x-handlebars-template">
+        {{#each trips}}
+            <option value="{{_id}}">{{title}}</option>
         {{/each}}
     </script>
 

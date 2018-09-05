@@ -8,6 +8,8 @@ class TripsRenderer {
         this.$trips = $(".trips");
         this.$tripTemplate = $('#trip-template').html();
         this.$poiTemplate = $('#poi-template').html();
+        this.$categories = $('#categories');
+        this.$categoryTemplate = $('#category-template').html();
     }
  
     renderTrips(trips) {
@@ -31,6 +33,18 @@ class TripsRenderer {
           let newHTML = template(trips[tripIndex].pois[i]);
           $poiList.after(newHTML);
         }
+    }
+
+    renderCategories(categories){
+        this.$categories.empty();
+        let template = Handlebars.compile(this.$categoryTemplate);
+        let newHTML = template({categories: categories});
+        console.log(newHTML);
+        this.$categories.append(newHTML);
+    }
+
+    renderSearchResults(){
+        
     }
 }
 

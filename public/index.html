@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link href="bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+    <title></title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="page-header">
+                    <h1>triPlanner</h1>
+                </div>
+                <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#exampleModal">
+                    Create a New Trip
+                </button>
+
+                <!--Bootstrap Modal for trip creating -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Create a trip in two steps</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="add-trip-form">
+                                    <h4>Please name your trip</h4>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col">
+                                                <input class="form-control" id="trip-name" type="text" placeholder="The name of your trip here: e.g. &#34Paris in the summer&#34" required/>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <label for="start">From</label>
+                                                <input type="date" id="start" name="trip" value="2018-07-22" min="2018-01-01" max="2018-12-31" />
+                                                <label for="end">To</label>
+                                                <input type="date" id="end" name="trip" value="2018-07-29" min="2018-01-01" max="2018-12-31" />
+                                            </div>
+                                        </div>
+                                        <label for="description">Description:</label>
+                                        <input class="form-control" type="text" id="description" name="trip" placeholder="e.g. mine and elena's summer trip to paris">
+                                        <button type="submit" id="add-trip" class="btn btn-primary">Submit</button>
+                                    </div>
+
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <form class="trip-form">
+                    <h3>Search By Location</h3>
+                    <div class="form-group">
+                        <input class="form-control" type="text" id="searchText" placeholder="Paris" />
+                    </div>
+                    <button type="button" id="search" class="btn btn-primary">Search</button>
+                </form>
+            </div>
+        </div>
+        <div class="trips"></div>
+    </div>
+    <script id="trip-template" type="text/x-handlebars-template">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="trip" data-id="{{_id}}">Trip:{{name}}, 
+                        <button type="button" class="btn btn-danger remove-trip">Delete Trip</button>
+                        <div class="poi-container">
+                                <ul class="poi-list"></ul>
+
+                        </div>
+                    </div>
+                </div>
+            </div>   
+        </div>
+    </script>
+    <script id="poi-template" type="text/x-handlebars-template">
+        <div class="row">
+                <div class="col">
+                    <li class="poi" data-id="{{_id}}">Title:{{title}}, Category{{category}}
+                        <button type="button" class="btn btn-sm btn-danger remove-poi">Delete Point Of Interest</button>
+                    </li>
+                </div>
+            </div>
+    </script>
+    <script src="jquery/dist/jquery.js"></script>
+    <script src="handlebars/dist/handlebars.js"></script>
+    <script src="bootstrap/dist/js/bootstrap.js"></script>
+    <script src="main.js" type="module"></script>
+</body>
+
+</html>

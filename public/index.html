@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- External Styles -->
     <link rel="stylesheet" type="text/css" media="screen" href="bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="@fortawesome/fontawesome-free/css/all.css" />
     <!-- Styles -->
     <link rel="stylesheet" type="text/css" media="screen" href="style.css" />
     <title>triPlanner</title>
@@ -34,6 +35,10 @@
                     <a class="nav-link" href="#">About</a>
                 </li>
             </ul>
+            <form class="form-inline">
+                <select class="custom-select mr-sm-2 hidden" id="tripSelector" required>
+                </select>
+            </form>
         </div>
     </nav>
 
@@ -48,9 +53,6 @@
                 <form id="searchForm" class="form-inline trip-form">
                     <input class="form-control mr-sm-2" type="text" id="searchText" placeholder="Location" required />
                     <select class="custom-select mr-sm-2" id="categories" required>
-                        <!-- remove - only for dev -->
-                        <!-- <option value="">Choose Category...</option>
-                        <option value="test2">test2</option> -->
                     </select>
                     <button type="submit" id="search" class="btn btn-primary">Search</button>
                 </form>
@@ -103,7 +105,7 @@
             <!-- Sidebar -->
             <div class="col-sm-4 side">
                 <!-- Empty message -->
-                <div id="emptyMessage" class="card border-danger">
+                <div id="emptyMessage" class="card border-danger hidden">
                     <div class="card-body text-danger">
                         You don't have any trips planned yet.
                         <br> Go ahead and <a href="#" class="card-link" data-toggle="modal" data-target="#exampleModal">create</a>
@@ -112,9 +114,9 @@
                 </div>
 
                 <!-- Trips area -->
-                <select class="custom-select mr-sm-2" id="tripSelector" required>
-                </select>
-                <div id="tripPois"></div>
+                <div id="tripsWrapper" class="hidden">
+                    <div id="tripPois"></div>
+                </div>
             </div>
         </div>
 
@@ -194,12 +196,33 @@
     </script>
 
     <script id="trip-pois-template" type="text/x-handlebars-template">
-        {{#each pois}}
-            <div>
-                <h4>{{name}}</h4>
-                <img class="category-thumb" src="{{categoryIcon}}"> {{category}}
+        <div class="card">
+                <div class="card-body trip-details" data-id="{{trip._id}}">
+                <h5 class="card-title">{{trip.name}}</h5>
+                {{#if trip.fromDate}}
+                    <h6 class="card-subtitle mb-2 text-muted">
+                        {{formatDate trip.fromDate "short"}} - {{formatDate trip.toDate "short"}}
+                    </h6>
+                {{/if}}
+                {{#if trip.description}}
+                    <p class="card-text">{{trip.description}}</p>
+                {{/if}}
+                <a id="deleteBtn" href="#" class="card-link" alt="Delete"><i class="fas fa-trash-alt"></i></a>
             </div>
-        {{/each}}
+            <ul class="list-group list-group-flush">
+                {{#each pois}}
+                    <li class="list-group-item">
+                        <img class="category-thumb" src="{{categoryIcon}}"> <a href="#"><b>{{name}}</b></a>
+                        <ul class="poi-details">
+                            <li><b>{{category}}</b></li>
+                            <li>{{{city}}}, {{{country}}}</li>
+                        </ul>
+                        <a href="#" class="card-link deletePoi" alt="Delete"><i class="fas fa-trash-alt"></i></a>
+                    </li>
+                {{/each}}
+            </ul>
+        </div>
+ 
     </script>
 
     <script id="clicked-result-template" type="text/x-handlebars-template">
@@ -219,6 +242,7 @@
     <!-- External scripts -->
     <script src="jquery/dist/jquery.min.js"></script>
     <script src="handlebars/dist/handlebars.min.js"></script>
+    <script src="handlebars-intl/dist/handlebars-intl.min.js"></script>
     <script src="bootstrap/dist/js/bootstrap.min.js"></script>
 
     <!-- Scripts -->

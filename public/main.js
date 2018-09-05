@@ -12,14 +12,22 @@ eventsHandler.registerCreateTrip();
 eventsHandler.registerSearchLocation();
 eventsHandler.registerSearchResults();
 eventsHandler.registerSelectTrip();
+eventsHandler.registerDeleteTrip();
 
 //pull trips from database on init
 let initTrips = () => ajaxUtil.getAjax("GET", "/trips");
 initTrips()
     .then(res => {
-        // console.log(res);
-        tripsRepository.trips = res;
-        tripsRenderer.renderTrips(tripsRepository.trips);
+        if (res.length) {
+            tripsRepository.trips = res;
+            tripsRenderer.renderTrips(tripsRepository.trips);
+            tripsRenderer.renderTripPois(tripsRepository.trips[0]);
+            $('#tripsWrapper').show();
+            $('#tripSelector').show();
+        }
+        else {
+            $('#emptyMessage').show();
+        }
     })
     .catch(err => { console.log(err) });
 
@@ -29,3 +37,7 @@ initCategories()
         tripsRenderer.renderCategories(categories);//todo debug
     })
     .catch(err => { console.log(err) });
+
+
+
+    

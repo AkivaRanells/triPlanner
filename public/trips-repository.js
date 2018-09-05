@@ -11,8 +11,9 @@ class TripsRepository {
         this.trips.push(tripFromDB);
     }
     //remove trip from array
-    removeTrip(index) {
-        this.trips.splice(index, 1);
+    removeTrip(tripId) {
+        const trip = this.getTripById(tripId);
+        this.trips.splice(this.trips.indexOf(trip), 1);
     }
 
     addPoi(newPoi, tripIndex) {

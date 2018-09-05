@@ -102,7 +102,7 @@ router.get('/categories', wrap(async (req, res, next) => {
             categories.push(category);
         }
     });
-    categories.sort((a,b) => {
+    categories.sort((a, b) => {
         return (a.title > b.title) ? 1 : ((b.title > a.title) ? -1 : 0);
     });
     res.json(categories);
@@ -120,8 +120,8 @@ router.post('/trips', wrap(async (req, res, next) => {
     const newTrip = new Trip({
         name: name,
         description: description,
-        fromDate: moment(fromDate),
-        toDate: moment(toDate),
+        fromDate: fromDate ? moment(fromDate) : null,
+        toDate: toDate ? moment(toDate) : null,
         pois: []
     });
     let trip = await newTrip.save();

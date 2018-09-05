@@ -13,8 +13,10 @@ const router = express.Router();
 const GEOCODE_BASE_URL = 'https://geocoder.api.here.com/6.2/geocode.json';
 const EXPLORE_BASE_URL = 'https://places.api.here.com/places/v1/discover/explore';
 const LOOKUP_BASE_URL = 'https://places.api.here.com/places/v1/places/lookup';
-// todo: all categories or user selection https://developer.here.com/documentation/places/topics/categories.html
-const CATEGORIES = 'leisure-outdoor,eat-drink';
+const CATEGORIES_BASE_URL = 'https://places.api.here.com/places/v1/categories/places';
+// ========== todo: all categories or user selection:
+// ========== https://developer.here.com/documentation/places/topics/categories.html
+// const CATEGORIES = 'eat-drink';
 const APP_ID = process.env.HERE_APP_ID || private.HERE_APP_ID;
 const APP_CODE = process.env.HERE_APP_CODE || private.HERE_APP_CODE;
 
@@ -24,7 +26,6 @@ router.get('/external-location', wrap(async (req, res, next) => {
     // Get latitude and longitude for given search term
     const { q } = req.query;
     const positionUrl = `${GEOCODE_BASE_URL}?app_id=${APP_ID}&app_code=${APP_CODE}&searchtext=${q}`;
-    debug(positionUrl);
     const positionOptions = {
         uri: positionUrl,
         qs: { q: q },
@@ -32,10 +33,10 @@ router.get('/external-location', wrap(async (req, res, next) => {
         json: true
     };
     let result = await request(positionOptions);
-    debug(result);
     if (result.Response.View.length) {
+        const { catid } = req.query;
         const position = result.Response.View[0].Result[0].Location.DisplayPosition;
-        const poisUrl = `${EXPLORE_BASE_URL}?app_id=${APP_ID}&app_code=${APP_CODE}&at=${position.Latitude},${position.Longitude}&cat=${CATEGORIES}&show_refs=sharing`;
+        const poisUrl = `${EXPLORE_BASE_URL}?app_id=${APP_ID}&app_code=${APP_CODE}&at=${position.Latitude},${position.Longitude}&cat=${catid}&show_refs=sharing`;
         const poisOptions = {
             uri: poisUrl,
             headers: { 'User-Agent': 'Request-Promise' },
@@ -81,6 +82,30 @@ router.get('/external-poi', wrap(async (req, res, next) => {
     poiObj.country = rawPoi.location.address.country;
     poiObj.mapLink = rawPoi.view;
     res.json(poiObj);
+}));
+
+// Get available location categories from here.com
+router.get('/categories', wrap(async (req, res, next) => {
+    const categoryUrl = `${CATEGORIES_BASE_URL}?app_id=${APP_ID}&app_code=${APP_CODE}`;
+    const categoryOptions = {
+        uri: categoryUrl,
+        headers: { 'User-Agent': 'Request-Promise' },
+        json: true
+    };
+    let response = await request(categoryOptions);
+    console.log(response.items[0].title);
+    const rawCategories = response.items;
+    const categories = [];
+    rawCategories.forEach(c => {
+        if (!c.within.length) {
+            const category = {};
+            category.id = c.id;
+            category.title = c.title;
+            category.icon = c.icon;
+            categories.push(category);
+        }
+    });
+    res.json(categories);
 }));
 
 // Get all trips and their POIs

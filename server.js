@@ -26,7 +26,7 @@ app.use("/", tripsApi);
 app.use(function (req, res) { res.status(404).json({ message: 'Page not found' }); });
 app.use(function (error, req, res, next) {
     res.status(500).json({
-        message: 'An error has occured',
+        message: 'An error has occured: ' + (error.message || ''),
         error: error
     });
 });

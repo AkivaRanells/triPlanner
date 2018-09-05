@@ -2,24 +2,62 @@
 <html>
 
 <head>
-    <link href="bootstrap/dist/css/bootstrap.css" rel="stylesheet">
-    <link href="style.css" rel="stylesheet">
-    <title></title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- External Styles -->
+    <link rel="stylesheet" type="text/css" media="screen" href="bootstrap/dist/css/bootstrap.min.css" />
+    <!-- Styles -->
+    <link rel="stylesheet" type="text/css" media="screen" href="style.css" />
+    <title>triPlanner</title>
 </head>
 
 <body>
-    <div class="container">
+    <!-- Navigaion bar -->
+    <!-- todo: add icons to buttons -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">
+            <img src="./images/triplan.svg" height="50" alt="triPlanner">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-toggle="modal" data-target="#exampleModal">New Trip Plan</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Contact</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">About</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
         <div class="row">
-            <div class="col-md-6 col-md-offset-3">
-                <div class="page-header">
-                    <h1>triPlanner</h1>
-                </div>
-                <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#exampleModal">
-                    Create a New Trip
-                </button>
+
+            <!-- Main area -->
+            <div class="col-sm-8 main">
+
+                <!-- Search location form -->
+                <p class="search-title">Search Location for Points of Interest</p>
+                <form id="searchForm" class="form-inline trip-form">
+                    <input class="form-control mr-sm-2" type="text" id="searchText" placeholder="Location" required />
+                    <select class="custom-select mr-sm-2" id="categories" required>
+                        <option value="">Choose Category...</option> <!-- remove - only for dev -->
+                        <option value="test2">test2</option> <!-- remove - only for dev -->
+                    </select>
+                    <button type="submit" id="search" class="btn btn-primary">Search</button>
+                </form>
+                <div id="searchResults"></div>
 
                 <!--Bootstrap Modal for trip creating -->
-                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -34,19 +72,23 @@
                                     <div class="form-group">
                                         <div class="row">
                                             <div class="col">
-                                                <input class="form-control" id="trip-name" type="text" placeholder="The name of your trip here: e.g. &#34Paris in the summer&#34" required/>
+                                                <input class="form-control" id="trip-name" type="text" placeholder="The name of your trip here: e.g. &#34Paris in the summer&#34"
+                                                    required />
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col">
                                                 <label for="start">From</label>
-                                                <input type="date" id="start" name="trip" value="2018-07-22" min="2018-01-01" max="2018-12-31" />
+                                                <input type="date" id="start" name="trip" value="2018-07-22" min="2018-01-01"
+                                                    max="2018-12-31" />
                                                 <label for="end">To</label>
-                                                <input type="date" id="end" name="trip" value="2018-07-29" min="2018-01-01" max="2018-12-31" />
+                                                <input type="date" id="end" name="trip" value="2018-07-29" min="2018-01-01"
+                                                    max="2018-12-31" />
                                             </div>
                                         </div>
                                         <label for="description">Description:</label>
-                                        <input class="form-control" type="text" id="description" name="trip" placeholder="e.g. mine and elena's summer trip to paris">
+                                        <input class="form-control" type="text" id="description" name="trip"
+                                            placeholder="e.g. mine and elena's summer trip to paris">
                                         <button type="submit" id="add-trip" class="btn btn-primary">Submit</button>
                                     </div>
 
@@ -59,17 +101,16 @@
                         </div>
                     </div>
                 </div>
-                <form class="trip-form">
-                    <h3>Search By Location</h3>
-                    <div class="form-group">
-                        <input class="form-control" type="text" id="searchText" placeholder="Paris" />
-                    </div>
-                    <button type="button" id="search" class="btn btn-primary">Search</button>
-                </form>
             </div>
+
+            <!-- Sidebar -->
+            <div class="col-sm-4 side">col-sm-4</div>
         </div>
-        <div class="trips"></div>
+
     </div>
+    </div>
+
+    <!-- Handlebars templates -->
     <script id="trip-template" type="text/x-handlebars-template">
         <div class="container">
             <div class="row">
@@ -78,13 +119,13 @@
                         <button type="button" class="btn btn-danger remove-trip">Delete Trip</button>
                         <div class="poi-container">
                                 <ul class="poi-list"></ul>
-
                         </div>
                     </div>
                 </div>
             </div>   
         </div>
     </script>
+
     <script id="poi-template" type="text/x-handlebars-template">
         <div class="row">
                 <div class="col">
@@ -94,9 +135,20 @@
                 </div>
             </div>
     </script>
-    <script src="jquery/dist/jquery.js"></script>
-    <script src="handlebars/dist/handlebars.js"></script>
-    <script src="bootstrap/dist/js/bootstrap.js"></script>
+
+    <script id="category-template" type="text/x-handlebars-template">
+        <option value="">Choose Category...</option>
+        {{#each categories}}
+            <option value="{{id}}">{{title}}</option>
+        {{/each}}
+    </script>
+
+    <!-- External scripts -->
+    <script src="jquery/dist/jquery.min.js"></script>
+    <script src="handlebars/dist/handlebars.min.js"></script>
+    <script src="bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <!-- Scripts -->
     <script src="main.js" type="module"></script>
 </body>
 

@@ -9,6 +9,8 @@ let ajaxUtil = new AjaxUtil();
 let eventsHandler = new EventsHandler(tripsRepository, tripsRenderer, ajaxUtil);
 
 eventsHandler.registerCreateTrip();
+eventsHandler.registerSearchLocation();
+eventsHandler.registerSearchResults();
 eventsHandler.registerSelectTrip();
 
 //pull trips from database on init
@@ -23,7 +25,8 @@ initTrips()
 
 let initCategories = () => ajaxUtil.getAjax("GET", "/categories");
 initCategories()
-    .then((categories) => {
-        tripsRenderer.renderCategories(categories);//todo debug
-    })
-    .catch(err => { console.log(err) });
+.then((categories)=>{
+    // console.log(categories);
+    tripsRenderer.renderCategories(categories);//todo debug
+})
+.catch(err=>{console.log(err)});

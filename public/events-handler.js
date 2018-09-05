@@ -28,12 +28,24 @@ class EventsHandler {
         });
     }
 
-    registerSearchLocation() {
-        $('#search').on('click', (x) => {
+    registerSearchLocation(){
+        $('#searchForm').on('submit', (x)=>{
+
             x.preventDefault();
             let text = $('#searchText').val();
-            console.log(text);
             let category = $('#categories').val();// todo debug
+            this.ajaxUtil.getAjax("GET", "/external-location?q="+text+"&catid="+category)
+            .then((res)=>{
+                // console.log(res);//todo debug
+                this.tripsRenderer.renderSearchResults(res);
+            })
+            .catch(err=>{console.log(err)});
+        })
+    }
+
+   
+
+    registerAddPoiToTrip(){
             console.log(category);
             this.ajaxUtil.getAjax("GET", "/external-location?q=" + text + "&catid=" + category)
                 .then((res) => {

@@ -26,7 +26,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#" data-toggle="modal" data-target="#exampleModal">New Trip Plan</a>
+                    <a class="nav-link new-trip" href="#" data-toggle="modal" data-target="#exampleModal">New Trip Plan</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#" data-toggle="modal" data-target="#contactModal">Contact Us</a>
@@ -36,7 +36,7 @@
                 </li>
             </ul>
             <form class="form-inline">
-                <select class="custom-select mr-sm-2 hidden" id="tripSelector" required>
+                <select class="form-control mr-sm-2 hidden" id="tripSelector" required>
                 </select>
             </form>
         </div>
@@ -87,52 +87,55 @@
                 <p class="search-title">Search Location for Points of Interest</p>
                 <form id="searchForm" class="form-inline trip-form">
                     <input class="form-control mr-sm-2" type="text" id="searchText" placeholder="Location" required />
-                    <select class="custom-select mr-sm-2" id="categories" required>
+                    <select class="form-control mr-sm-2" id="categories" required>
                     </select>
                     <button type="submit" id="search" class="btn btn-primary">Search</button>
                 </form>
                 <div id="searchResults"></div>
 
-                <!--Bootstrap Modal for trip creating -->
+                <!--Bootstrap Modal for trip creating/editing -->
                 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                     aria-hidden="true" data-method="">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Create a trip in two steps</h5>
+                                <h5 class="modal-title" id="exampleModalLabel">Trip Details</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form id="add-trip-form">
-                                    <h4>Please name your trip</h4>
-                                    <div class="form-group">
-                                        <div class="row">
-                                            <div class="col">
-                                                <input class="form-control" id="tripName" type="text" placeholder="The name of your trip here: e.g. &#34Paris in the summer&#34"
-                                                    required />
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col">
-                                                <label for="start">From</label>
-                                                <input type="date" id="start" name="trip" />
-                                                <label for="end">To</label>
-                                                <input type="date" id="end" name="trip" />
-                                            </div>
-                                        </div>
-                                        <label for="description">Description:</label>
-                                        <input class="form-control" type="text" id="description" name="trip"
-                                            placeholder="e.g. mine and elena's summer trip to paris">
-                                        <button type="submit" id="add-trip" class="btn btn-primary">Submit</button>
-                                    </div>
 
+                                <form id="add-trip-form">
+                                    <div class="row">
+                                        <div class="col">
+                                            <label for="tripName">Name</label>
+                                            <input class="form-control" id="tripName" type="text" placeholder="Name"
+                                                required>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <label for="start">From</label>
+                                            <input class="form-control" type="date" id="start" />
+                                        </div>
+                                        <div class="col">
+                                            <label for="end">To</label>
+                                            <input class="form-control" type="date" id="end" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <label for="description">Description</label>
+                                            <textarea class="form-control" id="description" placeholder="Description"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <button type="submit" id="add-trip" class="btn btn-primary">Submit</button>
+                                        </div>
+                                    </div>
                                 </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary">Save changes</button>
                             </div>
                         </div>
                     </div>
@@ -145,7 +148,7 @@
                 <div id="emptyMessage" class="card border-danger hidden">
                     <div class="card-body text-danger">
                         You don't have any trips planned yet.
-                        <br> Go ahead and <a href="#" class="card-link" data-toggle="modal" data-target="#exampleModal">create</a>
+                        <br> Go ahead and <a href="#" class="card-link new-trip" data-toggle="modal" data-target="#exampleModal">create</a>
                         your first one!
                     </div>
                 </div>

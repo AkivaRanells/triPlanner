@@ -27,7 +27,11 @@ class TripsRepository {
         const poi = this.getPoiById(tripId, poiId);
         trip.pois.splice(trip.pois.indexOf(poi), 1);
     };
-    //add find poiId and find tripId change from index to id 
+
+    editTrip(updatedTrip) {
+        let trip = this.getTripById(updatedTrip._id);
+        trip = updatedTrip;///////////////////////
+    }
 
     getTripById(tripId) {
         for (let trip of this.trips) {

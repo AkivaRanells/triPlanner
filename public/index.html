@@ -18,8 +18,8 @@
         <a class="navbar-brand" href="#">
             <img src="./images/triplan.svg" height="50" alt="triPlanner">
         </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+            aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -57,8 +57,7 @@
                 <div id="searchResults"></div>
 
                 <!--Bootstrap Modal for trip creating -->
-                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                    aria-hidden="true">
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -73,7 +72,7 @@
                                     <div class="form-group">
                                         <div class="row">
                                             <div class="col">
-                                                <input class="form-control" id="trip-name" type="text" placeholder="The name of your trip here: e.g. &#34Paris in the summer&#34"
+                                                <input class="form-control" id="tripName" type="text" placeholder="The name of your trip here: e.g. &#34Paris in the summer&#34"
                                                     required />
                                             </div>
                                         </div>
@@ -86,8 +85,7 @@
                                             </div>
                                         </div>
                                         <label for="description">Description:</label>
-                                        <input class="form-control" type="text" id="description" name="trip"
-                                            placeholder="e.g. mine and elena's summer trip to paris">
+                                        <input class="form-control" type="text" id="description" name="trip" placeholder="e.g. mine and elena's summer trip to paris">
                                         <button type="submit" id="add-trip" class="btn btn-primary">Submit</button>
                                     </div>
 
@@ -108,8 +106,7 @@
                 <div id="emptyMessage" class="card border-danger">
                     <div class="card-body text-danger">
                         You don't have any trips planned yet.
-                        <br>
-                        Go ahead and <a href="#" class="card-link" data-toggle="modal" data-target="#exampleModal">create</a>
+                        <br> Go ahead and <a href="#" class="card-link" data-toggle="modal" data-target="#exampleModal">create</a>
                         your first one!
                     </div>
                 </div>
@@ -121,6 +118,32 @@
             </div>
         </div>
 
+    </div>
+
+    <!-- Button trigger modal
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#clickedResultModal">
+        Launch demo modal
+    </button> -->
+
+    <!-- Modal for clicked search result -->
+    <div class="modal fade" id="clickedResultModal" tabindex="-1" role="dialog" aria-labelledby="clickedResultModal" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="clickedResultModalLabel">Point of interest details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="bodyClickedResultModal">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Handlebars templates -->
@@ -159,11 +182,11 @@
     <script id="search-results-template" type="text/x-handlebars-template">
         <ul>
             {{#each results}}
-                <li><a class="resultItem" href="" data-id="{{externalId}}">{{name}}</a><button type="button" class="btn btn-info">&plus;</button></li>
+                <li class="search-list-item"><a class="resultItem" href="" data-id="{{externalId}}" data-toggle="modal" data-target="#clickedResultModal">{{name}}</a><button type="button" class="btn btn-info">&plus;</button></li>
             {{/each}}
         </ul>
     </script>
-    
+
     <script id="trip-select-template" type="text/x-handlebars-template">
         {{#each trips}}
             <option value="{{_id}}">{{name}}</option>
@@ -177,6 +200,20 @@
                 <img class="category-thumb" src="{{categoryIcon}}"> {{category}}
             </div>
         {{/each}}
+    </script>
+
+    <script id="clicked-result-template" type="text/x-handlebars-template">
+        <div class="container-fluid">
+            <div class="row">
+              <div class="col-md-3 ml-auto"><img src="{{categoryIcon}}"alt=""></div>
+              <div class="col-md-3 ml-auto">{{name}}</div>
+              <div class="col-md-3 ml-auto">{{category}}</div>
+              <div class="col-md-3 ml-auto">{{{address}}}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 ml-auto"><iframe src="{{mapLink}}"></iframe></div>  
+            </div>
+        </div>
     </script>
 
     <!-- External scripts -->

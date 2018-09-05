@@ -14,15 +14,24 @@ class TripsRepository {
     removeTrip(index) {
         this.trips.splice(index, 1);
     }
-    
+
     addPoi(newPoi, tripIndex) {
         this.trips[tripIndex].poi.push(newPoi);
     };
 
     deleteComment(tripIndex, poiIndex) {
         this.trips[tripIndex].poi.splice(poiIndex, 1);
-      };
-      //add find poiId and find tripId change from index to id 
+    };
+    //add find poiId and find tripId change from index to id 
+
+    getTripById(tripId) {
+        for (let trip of this.trips) {
+            if (trip._id === tripId) {
+                return trip;
+            }
+        };
+        return null;
+    }
 }
 
 export default TripsRepository

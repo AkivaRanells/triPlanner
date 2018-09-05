@@ -156,6 +156,14 @@
         {{/each}}
     </script>
 
+    <script id="search-results-template" type="text/x-handlebars-template">
+        <ul>
+            {{#each results}}
+                <li><a class="resultItem" href="" data-id="{{externalId}}">{{name}}</a><button type="button" class="btn btn-info">&plus;</button></li>
+            {{/each}}
+        </ul>
+    </script>
+    
     <script id="trip-select-template" type="text/x-handlebars-template">
         {{#each trips}}
             <option value="{{_id}}">{{name}}</option>

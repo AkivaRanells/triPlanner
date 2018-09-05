@@ -9,6 +9,8 @@ let ajaxUtil = new AjaxUtil();
 let eventsHandler = new EventsHandler(tripsRepository, tripsRenderer, ajaxUtil);
 
 eventsHandler.registerCreateTrip();
+eventsHandler.registerSearchLocation();
+eventsHandler.registerSearchResults();
 eventsHandler.registerSelectTrip();
 
 //pull trips from database on init

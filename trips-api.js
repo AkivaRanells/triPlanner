@@ -102,6 +102,9 @@ router.get('/categories', wrap(async (req, res, next) => {
             categories.push(category);
         }
     });
+    categories.sort((a,b) => {
+        return (a.title > b.title) ? 1 : ((b.title > a.title) ? -1 : 0);
+    });
     res.json(categories);
 }));
 
@@ -147,7 +150,7 @@ router.post('/trips/:tripId/pois', wrap(async (req, res, next) => {
     else {
         // If it doesn't exist -> create POI in DB and update ref in trip
         // Get POI's details from here.com
-        const poiUrl = `${req.protocol}://${req.headers.host}/external-poi?poi=${externalId}`;
+        const poiUrl = `${req.protocol}://${req.headers.host}/external-poi?poiid=${externalId}`;
         const poiOptions = {
             uri: poiUrl,
             headers: { 'User-Agent': 'Request-Promise' },

@@ -1,9 +1,5 @@
-.main {
-    /* background-color: lightcoral; */
-}
-
-.side {
-    background-color: lightgreen;
+#emptyMessage {
+    margin-top: 10px;
 }
 
 .trip-form * {

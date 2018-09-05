@@ -5,25 +5,22 @@
 
 class TripsRenderer {
     constructor() {
-        this.$trips = $(".trips");
-        this.$tripTemplate = $('#trip-template').html();
+        this.$trips = $("#tripSelector");
+        this.$tripPois = $("#tripPois");
+        this.$tripTemplate = $('#trip-select-template').html();
         this.$poiTemplate = $('#poi-template').html();
         this.$categories = $('#categories');
         this.$categoryTemplate = $('#category-template').html();
         this.$searchResults = $('#searchResults');
         this.$searchResultsTemplate = $('#search-results-template').html();
+        this.$tripPoisTemplate = $('#trip-pois-template').html();
     }
- 
+
     renderTrips(trips) {
         this.$trips.empty();
         let template = Handlebars.compile(this.$tripTemplate);
-        for (let i = 0; i < trips.length; i++) {
-          let newHTML = template(trips[i]);
-        //   console.log(newHTML);
-          this.$trips.append(newHTML);
-          
-          this.renderPoi(trips, i);
-        }
+        let newHTML = template({ trips: trips });
+        this.$trips.html(newHTML);
     }
 
     renderPoi(trips, tripIndex) {
@@ -32,15 +29,16 @@ class TripsRenderer {
         $poiList.empty();
         let template = Handlebars.compile(this.$poiTemplate);
         for (let i = 0; i < trips[tripIndex].pois.length; i++) {
-          let newHTML = template(trips[tripIndex].pois[i]);
-          $poiList.after(newHTML);
+            let newHTML = template(trips[tripIndex].pois[i]);
+            $poiList.after(newHTML);
         }
     }
 
-    renderCategories(categories){
+    renderCategories(categories) {
         this.$categories.empty();
         let template = Handlebars.compile(this.$categoryTemplate);
         let newHTML = template({categories: categories});
+
         // console.log(newHTML);
         this.$categories.append(newHTML);
     }
@@ -50,6 +48,13 @@ class TripsRenderer {
         let template = Handlebars.compile(this.$searchResultsTemplate);
         let newHTML = template({results: results});
         this.$searchResults.append(newHTML);
+    }
+
+    renderTripPois(trip) {
+        this.$tripPois.empty();
+        let template = Handlebars.compile(this.$tripPoisTemplate);
+        let newHTML = template({ pois: trip.pois });
+        this.$tripPois.html(newHTML);
     }
 }
 

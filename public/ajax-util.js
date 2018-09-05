@@ -2,8 +2,8 @@
  * @class responsible for clientside ajax calls
  */
 
-class AjaxUtil{
-    constructor(){
+class AjaxUtil {
+    constructor() {
 
     }
 
@@ -11,13 +11,9 @@ class AjaxUtil{
         const req = {};
         req.method = method;
         req.url = url;
-        if (data) { 
-            req.data = data;
-         }
-        if (dataType) {
-             req.dataType = dataType; 
-            }
-        
+        if (data) { req.data = data; }
+        if (dataType) { req.dataType = dataType; }
+
         return $.ajax(req);
     }
 }

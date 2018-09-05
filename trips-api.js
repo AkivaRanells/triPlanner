@@ -144,8 +144,8 @@ router.post('/trips/:tripId/pois', wrap(async (req, res, next) => {
     let poi = await POI.findOne({ externalId: externalId })
     if (poi) {
         // If it exists -> update ref in trip
-        let trip = await Trip.findOneAndUpdate({ _id: tripId }, { $push: { pois: poi } }, { new: true });
-        res.json(trip);
+        let trip = await Trip.findOneAndUpdate({ _id: tripId }, { $push: { pois: poi } }, { new: true }).populate('pois');
+        res.json(trip.pois[trip.pois.length-1]);
     }
     else {
         // If it doesn't exist -> create POI in DB and update ref in trip
@@ -161,8 +161,8 @@ router.post('/trips/:tripId/pois', wrap(async (req, res, next) => {
         const newPoi = new POI(poi);
         let createdPoi = await newPoi.save();
         // Update ref in trip
-        let trip = await Trip.findOneAndUpdate({ _id: tripId }, { $push: { pois: createdPoi } }, { new: true });
-        res.json(trip);
+        let trip = await Trip.findOneAndUpdate({ _id: tripId }, { $push: { pois: createdPoi } }, { new: true }).populate('pois');
+        res.json(trip.pois[trip.pois.length-1]);
     }
 }));
 

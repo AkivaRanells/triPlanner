@@ -16,8 +16,9 @@ class TripsRepository {
         this.trips.splice(this.trips.indexOf(trip), 1);
     }
 
-    addPoi(newPoi, tripIndex) {
-        this.trips[tripIndex].poi.push(newPoi);
+    addPoi(newPoi, tripId) {
+        const trip = this.getTripById(tripId);
+        trip.pois.push(newPoi);
     };
 
     deleteComment(tripIndex, poiIndex) {

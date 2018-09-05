@@ -124,7 +124,7 @@
     </div>
 
     <!-- Handlebars templates -->
-    <script id="trip-template" type="text/x-handlebars-template">
+    <!-- <script id="trip-template" type="text/x-handlebars-template">
         <div class="container">
             <div class="row">
                 <div class="col">
@@ -137,12 +137,12 @@
                 </div>
             </div>   
         </div>
-    </script>
+    </script> -->
 
     <script id="poi-template" type="text/x-handlebars-template">
         <div class="row">
                 <div class="col">
-                    <li class="poi" data-id="{{_id}}">Title:{{title}}, Category{{category}}
+                    <li class="poi" data-id="{{_id}}">Title:{{name}}, Category{{category}}
                         <button type="button" class="btn btn-sm btn-danger remove-poi">Delete Point Of Interest</button>
                     </li>
                 </div>
@@ -158,7 +158,16 @@
 
     <script id="trip-select-template" type="text/x-handlebars-template">
         {{#each trips}}
-            <option value="{{_id}}">{{title}}</option>
+            <option value="{{_id}}">{{name}}</option>
+        {{/each}}
+    </script>
+
+    <script id="trip-pois-template" type="text/x-handlebars-template">
+        {{#each pois}}
+            <div>
+                <h4>{{name}}</h4>
+                <img class="category-thumb" src="{{categoryIcon}}"> {{category}}
+            </div>
         {{/each}}
     </script>
 

@@ -9,12 +9,20 @@ let eventsHandler = new EventsHandler(tripsRepository,tripsRenderer, ajaxUtil);
 eventsHandler.registerCreateTrip();
 tripsRenderer.renderTrips(tripsRepository.trips);
 
-//pull database data on init
-let init =()=> ajaxUtil.getAjax("GET", "/trips");
-init()
+//pull trips from database on init
+let initTrips = ()=> ajaxUtil.getAjax("GET", "/trips");
+initTrips()
 .then(res=>{
-    console.log(res);
+    // console.log(res);
     tripsRepository.trips=res;
     tripsRenderer.renderTrips(tripsRepository.trips);
+})
+.catch(err=>{console.log(err)});
+
+let initCategories = ()=> ajaxUtil.getAjax("GET", "/categories");
+initCategories()
+.then((categories)=>{
+    console.log(categories);
+    tripsRenderer.renderCategories(categories);//todo debug
 })
 .catch(err=>{console.log(err)});

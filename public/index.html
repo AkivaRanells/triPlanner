@@ -122,6 +122,48 @@
 
     </div>
 
+    <!-- Button trigger modal
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#clickedResultModal">
+        Launch demo modal
+    </button> -->
+
+    <!-- Modal for clicked search result -->
+    <div class="modal fade" id="clickedResultModal" tabindex="-1" role="dialog" aria-labelledby="clickedResultModal" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="clickedResultModalLabel">Point of interest details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="bodyClickedResultModal">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Handlebars templates -->
+    <!-- <script id="trip-template" type="text/x-handlebars-template">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="trip" data-id="{{_id}}">Trip:{{name}}, 
+                        <button type="button" class="btn btn-danger remove-trip">Delete Trip</button>
+                        <div class="poi-container">
+                                <ul class="poi-list"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>   
+        </div>
+    </script> -->
+
     <script id="poi-template" type="text/x-handlebars-template">
         <div class="row">
                 <div class="col">
@@ -142,7 +184,7 @@
     <script id="search-results-template" type="text/x-handlebars-template">
         <ul>
             {{#each results}}
-                <li><a class="resultItem" href="" data-id="{{externalId}}">{{name}}</a><button type="button" class="btn btn-info">&plus;</button></li>
+                <li class="search-list-item"><a class="resultItem" href="" data-id="{{externalId}}" data-toggle="modal" data-target="#clickedResultModal">{{name}}</a><button type="button" class="btn btn-info">&plus;</button></li>
             {{/each}}
         </ul>
     </script>
@@ -181,6 +223,20 @@
             </ul>
         </div>
  
+    </script>
+
+    <script id="clicked-result-template" type="text/x-handlebars-template">
+        <div class="container-fluid">
+            <div class="row">
+              <div class="col-md-3 ml-auto"><img src="{{categoryIcon}}"alt=""></div>
+              <div class="col-md-3 ml-auto">{{name}}</div>
+              <div class="col-md-3 ml-auto">{{category}}</div>
+              <div class="col-md-3 ml-auto">{{{address}}}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 ml-auto"><iframe src="{{mapLink}}"></iframe></div>  
+            </div>
+        </div>
     </script>
 
     <!-- External scripts -->

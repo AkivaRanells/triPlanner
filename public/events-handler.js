@@ -39,8 +39,16 @@ class EventsHandler {
         })
     }
 
-    registerSearchResults() {
-
+    registerSearchResults(){
+        $('#searchResults').on('click','a', (e)=>{
+            e.preventDefault();
+            let externalId = $(e.currentTarget).data().id;
+            this.ajaxUtil.getAjax("GET", "/external-poi?poiid="+externalId)
+            .then((res)=>{
+                this.tripsRenderer.renderClickedResult(res);
+            })
+            .catch(err=>{console.log(err)});
+        })
     }
 
     registerAddPoiToTrip() {

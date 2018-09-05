@@ -28,6 +28,8 @@ class TripsRenderer {
             }
         };
         HandlebarsIntl.registerWith(Handlebars);
+        this.$clickedResults = $('#bodyClickedResultModal');
+        this.$clickedResultsTemplate = $('#clicked-result-template').html();
     }
 
     renderTrips(trips) {
@@ -67,6 +69,13 @@ class TripsRenderer {
         let template = Handlebars.compile(this.$tripPoisTemplate);
         let newHTML = template({ trip: trip, pois: trip.pois }, { data: { intl: this.intlData } });
         this.$tripPois.html(newHTML);
+    }
+
+    renderClickedResult(poi){
+        this.$clickedResults.empty();
+        let template = Handlebars.compile(this.$clickedResultsTemplate);
+        let newHTML = template(poi);
+        this.$clickedResults.html(newHTML);
     }
 }
 

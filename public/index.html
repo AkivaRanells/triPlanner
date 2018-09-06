@@ -16,7 +16,7 @@
     <!-- Navigaion bar -->
     <!-- todo: add icons to buttons -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="/">
             <img src="./images/triplan.svg" height="50" alt="triPlanner">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -111,23 +111,23 @@
                                         <div class="col">
                                             <label for="tripName">Name</label>
                                             <input class="form-control" id="tripName" type="text" placeholder="Name"
-                                                required>
+                                                required autocomplete="off">
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col">
                                             <label for="start">From</label>
-                                            <input class="form-control" type="date" id="start" />
+                                            <input class="form-control" type="date" id="start" required/>
                                         </div>
                                         <div class="col">
                                             <label for="end">To</label>
-                                            <input class="form-control" type="date" id="end" />
+                                            <input class="form-control" type="date" id="end" required />
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col">
                                             <label for="description">Description</label>
-                                            <textarea class="form-control" id="description" placeholder="Description"></textarea>
+                                            <textarea class="form-control" id="description" placeholder="Description" rows="3"></textarea>
                                         </div>
                                     </div>
                                     <div class="row">

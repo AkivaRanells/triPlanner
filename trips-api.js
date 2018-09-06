@@ -177,6 +177,7 @@ router.delete('/trips/:tripId/pois/:poiId', wrap(async (req, res, next) => {
 // Update a trip
 router.put('/trips/:tripId', wrap(async (req, res, next) => {
     const { tripId } = req.params;
+    console.log(tripId)
     const { name, description, fromDate, toDate } = req.body;
     const editedTrip = {
         name: name,

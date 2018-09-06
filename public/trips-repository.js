@@ -30,7 +30,7 @@ class TripsRepository {
 
     editTrip(updatedTrip) {
         let trip = this.getTripById(updatedTrip._id);
-        trip = updatedTrip;///////////////////////
+        trip = updatedTrip;
     }
 
     getTripById(tripId) {

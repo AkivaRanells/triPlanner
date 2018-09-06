@@ -79,6 +79,12 @@ class EventsHandler {
             e.preventDefault();
             let tripId = $('#tripSelector').val();
             let externalId = $(e.currentTarget).closest('li').find('a').data().id;
+            if(tripId===null){
+                $('#exampleModal').modal('show');
+                $('#exampleModalLabel').html('Adding a point of interest can only be done after you create your trip');
+                return;
+            }
+            
             this.ajaxUtil.getAjax("POST", "/trips/" + tripId + "/pois", { externalId: externalId }, "json")
                 .then((res) => {
                     this.tripsRepository.addPoi(res, tripId);

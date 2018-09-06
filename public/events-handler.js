@@ -58,7 +58,16 @@ class EventsHandler {
                 .then((res) => {
                     this.tripsRenderer.renderSearchResults(res);
                 })
-                .catch(err => { console.log(err) });
+                .catch(err => {
+                    if (err.status === 404) {
+                        const $elem = $('#searchResults');
+                        const message = `Location <b>${text}</b> not found, please try a new search`;
+                        this.tripsRenderer.renderMessage($elem, message);
+                    }
+                    else {
+                        console.log(err)
+                    }
+                });
         })
     }
 

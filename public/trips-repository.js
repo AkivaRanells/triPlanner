@@ -30,10 +30,10 @@ class TripsRepository {
 
     editTrip(updatedTrip) {
         let trip = this.getTripById(updatedTrip._id);
-         trip.name = updatedTrip.name;
-         trip.description = updatedTrip.description;
-         trip.fromDate = updatedTrip.fromDate;
-         trip.toDate = updatedTrip.toDate;
+        trip.name = updatedTrip.name;
+        trip.description = updatedTrip.description;
+        trip.fromDate = updatedTrip.fromDate;
+        trip.toDate = updatedTrip.toDate;
     }
 
     getTripById(tripId) {

@@ -14,6 +14,7 @@ class TripsRenderer {
         this.$searchResults = $('#searchResults');
         this.$searchResultsTemplate = $('#search-results-template').html();
         this.$tripPoisTemplate = $('#trip-pois-template').html();
+        // this.$messageTemplate = $('#message-template').html();
 
         this.intlData = {
             "locales": "en-US",
@@ -54,7 +55,6 @@ class TripsRenderer {
         this.$categories.empty();
         let template = Handlebars.compile(this.$categoryTemplate);
         let newHTML = template({ categories: categories });
-        // console.log(newHTML);
         this.$categories.append(newHTML);
     }
 
@@ -71,12 +71,19 @@ class TripsRenderer {
         this.$tripPois.html(newHTML);
     }
 
-    renderClickedResult(poi){
+    renderClickedResult(poi) {
         this.$clickedResults.empty();
         let template = Handlebars.compile(this.$clickedResultsTemplate);
         let newHTML = template(poi);
         this.$clickedResults.html(newHTML);
     }
+
+    // renderMessage($elem, message) {
+    //     $elem.empty();
+    //     let template = Handlebars.compile(this.$messageTemplate);
+    //     let newHTML = template({ message: message });
+    //     $elem.html(newHTML);
+    // }
 }
 
 export default TripsRenderer

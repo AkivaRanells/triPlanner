@@ -24,7 +24,7 @@ class EventsHandler {
                         this.tripsRenderer.renderTrips(this.tripsRepository.trips);
                         this.tripsRenderer.renderTripPois(this.tripsRepository.getTripById(newId));
                         $("#tripSelector").val(newId).show();
-                        this.refreshTrip(event);
+                        this.refreshModal(event);
                     })
                     .catch(err => { console.log(err) });
             }
@@ -35,16 +35,14 @@ class EventsHandler {
                         this.tripsRepository.editTrip(updatedTrip);
                         this.tripsRenderer.renderTrips(this.tripsRepository.trips);
                         this.tripsRenderer.renderTripPois(this.tripsRepository.getTripById(tripId));
-                        this.refreshTrip(event);
+                        this.refreshModal(event);
                     })
                     .catch(err => { console.log(err) });
-
             }
-
         });
     }
 
-    refreshTrip(event) {
+    refreshModal(event) {
         $('#tripsWrapper').show();
         $('#emptyMessage').hide();
         $('#exampleModal').modal('hide');

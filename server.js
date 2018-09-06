@@ -33,5 +33,4 @@ app.use(function (error, req, res, next) {
 
 app.listen(SERVER_PORT, () => { console.log(`${getTimestamp()} - Server started on port ${SERVER_PORT}`) });
 
-
 function getTimestamp() { return moment().format("YYYY-MM-DD HH:mm:ss") }

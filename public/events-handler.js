@@ -5,30 +5,50 @@ class EventsHandler {
         this.tripsRenderer = tripsRenderer;
         this.ajaxUtil = ajaxUtil;
         this.$trips = $(".trips");
-        // this.chosenTripId = '';
     }
     //for creating a new trip without poi
     registerCreateTrip() {
-        $('#add-trip-form').on('submit', (e) => {
-            e.preventDefault();
+        $('#add-trip-form').on('submit', (event) => {
+            event.preventDefault();
             let tripName = $("#tripName").val();
             let tripStart = $("#start").val();
             let tripEnd = $("#end").val();
             let desc = $('#description').val();
             let newTrip = { name: tripName, fromDate: tripStart, toDate: tripEnd, description: desc };
-            this.ajaxUtil.getAjax("POST", "/trips", newTrip, "json")
-                .then((newDBObject) => {
-                    const newId = this.tripsRepository.addTrip(newDBObject);
-                    this.tripsRenderer.renderTrips(this.tripsRepository.trips);
-                    this.tripsRenderer.renderTripPois(this.tripsRepository.getTripById(newId));
-                    $("#tripSelector").val(newId).show();
-                    $('#tripsWrapper').show();
-                    $('#emptyMessage').hide();
-                    $('#exampleModal').modal('hide');
-                    $(e.currentTarget)[0].reset();
-                })
-                .catch(err => { console.log(err) });
+
+            const method = $('#exampleModal').attr('data-method');
+            if (method === 'POST') {
+                this.ajaxUtil.getAjax("POST", "/trips", newTrip, "json")
+                    .then((createdTrip) => {
+                        const newId = this.tripsRepository.addTrip(createdTrip);
+                        this.tripsRenderer.renderTrips(this.tripsRepository.trips);
+                        this.tripsRenderer.renderTripPois(this.tripsRepository.getTripById(newId));
+                        $("#tripSelector").val(newId).show();
+                        this.refreshTrip(event);
+                    })
+                    .catch(err => { console.log(err) });
+            }
+            else if (method === 'PUT') {
+                const tripId = $('#exampleModal').attr('data-id');
+                this.ajaxUtil.getAjax("PUT", `/trips/${tripId}`, newTrip, "json")
+                    .then(updatedTrip => {
+                        this.tripsRepository.editTrip(updatedTrip);
+                        this.tripsRenderer.renderTrips(this.tripsRepository.trips);
+                        this.tripsRenderer.renderTripPois(this.tripsRepository.getTripById(tripId));
+                        this.refreshTrip(event);
+                    })
+                    .catch(err => { console.log(err) });
+
+            }
+
         });
+    }
+
+    refreshTrip(event) {
+        $('#tripsWrapper').show();
+        $('#emptyMessage').hide();
+        $('#exampleModal').modal('hide');
+        $(event.currentTarget)[0].reset();
     }
 
     registerSearchLocation() {
@@ -57,33 +77,33 @@ class EventsHandler {
     }
 
     registerAddPoiToTrip() {
-        $('#searchResults').on('click', '.btn-info', (e)=>{
+        $('#searchResults').on('click', '.btn-info', (e) => {
             e.preventDefault();
             let tripId = $('#tripSelector').val();
             let externalId = $(e.currentTarget).closest('li').find('a').data().id;
-            this.ajaxUtil.getAjax("POST","/trips/"+tripId+"/pois", {externalId:externalId}, "json")
-            .then((res)=>{
-                this.tripsRepository.addPoi(res, tripId);
-                const trip = this.tripsRepository.getTripById(tripId);
-                this.tripsRenderer.renderTripPois(trip);
-            })
-            .catch(err=>{console.log(err)});
+            this.ajaxUtil.getAjax("POST", "/trips/" + tripId + "/pois", { externalId: externalId }, "json")
+                .then((res) => {
+                    this.tripsRepository.addPoi(res, tripId);
+                    const trip = this.tripsRepository.getTripById(tripId);
+                    this.tripsRenderer.renderTripPois(trip);
+                })
+                .catch(err => { console.log(err) });
         })
     }
 
     registerAddPoiToTripFromModal() {
-        $('#addPoiFromModal').on('click', (e)=>{
+        $('#addPoiFromModal').on('click', (e) => {
             e.preventDefault();
             let tripId = $('#tripSelector').val();
             let externalId = $(e.currentTarget).closest('.modal-content').find('.container-fluid').data().id;
-            this.ajaxUtil.getAjax("POST","/trips/"+tripId+"/pois", {externalId:externalId}, "json")
-            .then((res)=>{
-                this.tripsRepository.addPoi(res, tripId);
-                const trip = this.tripsRepository.getTripById(tripId);
-                this.tripsRenderer.renderTripPois(trip);
-                $('#clickedResultModal').modal('hide');
-            })
-            .catch(err=>{console.log(err)});
+            this.ajaxUtil.getAjax("POST", "/trips/" + tripId + "/pois", { externalId: externalId }, "json")
+                .then((res) => {
+                    this.tripsRepository.addPoi(res, tripId);
+                    const trip = this.tripsRepository.getTripById(tripId);
+                    this.tripsRenderer.renderTripPois(trip);
+                    $('#clickedResultModal').modal('hide');
+                })
+                .catch(err => { console.log(err) });
         })
     }
 
@@ -95,11 +115,6 @@ class EventsHandler {
             this.tripsRenderer.renderTripPois(trip);
         });
     }
-
-
-
-
-
 
     registerDeleteTrip() {
         $('#tripPois').on('click', '#deleteBtn', event => {
@@ -132,6 +147,40 @@ class EventsHandler {
                 })
                 .catch(err => { console.log(err) });
         });
+    }
+
+    registerPoiDetails() {
+        $('#tripPois').on('click', '.poi-link', event => {
+            const poiId = $(event.currentTarget).closest('.poi-details').data().id;
+            const tripId = $('#tripSelector').val();
+            const poi = this.tripsRepository.getPoiById(tripId, poiId);
+            this.tripsRenderer.renderClickedResult(poi);
+        });
+    }
+
+    registerNewTripModal() {
+        $('.new-trip').on('click', event => {
+            this.populateTripForm('POST', null, null, null, null, null);
+        });
+    }
+
+    registerEditTripModal() {
+        $('#tripPois').on('click', '#editBtn', event => {
+            const tripId = $(event.currentTarget).closest('.trip-details').data().id;
+            const trip = this.tripsRepository.getTripById(tripId);
+            const from = trip.fromDate ? trip.fromDate.substring(0, 10) : '';
+            const to = trip.toDate ? trip.toDate.substring(0, 10) : '';
+            this.populateTripForm('PUT', tripId, trip.name, from, to, trip.description);
+        });
+    }
+
+    populateTripForm(method, tripId, name, start, end, description) {
+        $('#exampleModal').attr("data-method", method);
+        $('#exampleModal').attr("data-id", tripId);
+        $("#tripName").val(name);
+        $("#start").val(start);
+        $("#end").val(end);
+        $('#description').val(description);
     }
 
 }

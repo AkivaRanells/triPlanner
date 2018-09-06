@@ -16,17 +16,17 @@
     <!-- Navigaion bar -->
     <!-- todo: add icons to buttons -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="/">
             <img src="./images/triplan.svg" height="50" alt="triPlanner">
         </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-            aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#" data-toggle="modal" data-target="#exampleModal">New Trip Plan</a>
+                    <a class="nav-link new-trip" href="#" data-toggle="modal" data-target="#exampleModal">New Trip Plan</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#" data-toggle="modal" data-target="#contactModal">Contact Us</a>
@@ -36,7 +36,7 @@
                 </li>
             </ul>
             <form class="form-inline">
-                <select class="custom-select mr-sm-2 hidden" id="tripSelector" required>
+                <select class="form-control mr-sm-2 hidden" id="tripSelector" required>
                 </select>
             </form>
         </div>
@@ -60,7 +60,8 @@
     </div>
 
     <!-- Contact modal -->
-    <div class="modal fade" id="contactModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="contactModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -86,50 +87,55 @@
                 <p class="search-title">Search Location for Points of Interest</p>
                 <form id="searchForm" class="form-inline trip-form">
                     <input class="form-control mr-sm-2" type="text" id="searchText" placeholder="Location" required />
-                    <select class="custom-select mr-sm-2" id="categories" required>
+                    <select class="form-control mr-sm-2" id="categories" required>
                     </select>
                     <button type="submit" id="search" class="btn btn-primary">Search</button>
                 </form>
                 <div id="searchResults"></div>
 
-                <!--Bootstrap Modal for trip creating -->
-                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <!--Bootstrap Modal for trip creating/editing -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true" data-method="">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Create a trip in two steps</h5>
+                                <h5 class="modal-title" id="exampleModalLabel">Trip Details</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form id="add-trip-form">
-                                    <h4>Please name your trip</h4>
-                                    <div class="form-group">
-                                        <div class="row">
-                                            <div class="col">
-                                                <input class="form-control" id="tripName" type="text" placeholder="The name of your trip here: e.g. &#34Paris in the summer&#34"
-                                                    required />
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col">
-                                                <label for="start">From</label>
-                                                <input type="date" id="start" name="trip" />
-                                                <label for="end">To</label>
-                                                <input type="date" id="end" name="trip" />
-                                            </div>
-                                        </div>
-                                        <label for="description">Description:</label>
-                                        <input class="form-control" type="text" id="description" name="trip" placeholder="e.g. mine and elena's summer trip to paris">
-                                        <button type="submit" id="add-trip" class="btn btn-primary">Submit</button>
-                                    </div>
 
+                                <form id="add-trip-form">
+                                    <div class="row">
+                                        <div class="col">
+                                            <label for="tripName">Name</label>
+                                            <input class="form-control" id="tripName" type="text" placeholder="Name"
+                                                required autocomplete="off">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <label for="start">From</label>
+                                            <input class="form-control" type="date" id="start" required/>
+                                        </div>
+                                        <div class="col">
+                                            <label for="end">To</label>
+                                            <input class="form-control" type="date" id="end" required />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <label for="description">Description</label>
+                                            <textarea class="form-control" id="description" placeholder="Description" rows="3"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <button type="submit" id="add-trip" class="btn btn-primary">Submit</button>
+                                        </div>
+                                    </div>
                                 </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary">Save changes</button>
                             </div>
                         </div>
                     </div>
@@ -142,7 +148,7 @@
                 <div id="emptyMessage" class="card border-danger hidden">
                     <div class="card-body text-danger">
                         You don't have any trips planned yet.
-                        <br> Go ahead and <a href="#" class="card-link" data-toggle="modal" data-target="#exampleModal">create</a>
+                        <br> Go ahead and <a href="#" class="card-link new-trip" data-toggle="modal" data-target="#exampleModal">create</a>
                         your first one!
                     </div>
                 </div>
@@ -162,7 +168,8 @@
     </button> -->
 
     <!-- Modal for clicked search result -->
-    <div class="modal fade" id="clickedResultModal" tabindex="-1" role="dialog" aria-labelledby="clickedResultModal" aria-hidden="true">
+    <div class="modal fade" id="clickedResultModal" tabindex="-1" role="dialog" aria-labelledby="clickedResultModal"
+        aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -182,23 +189,7 @@
         </div>
     </div>
 
-    <!-- Handlebars templates -->
-    <!-- <script id="trip-template" type="text/x-handlebars-template">
-        <div class="container">
-            <div class="row">
-                <div class="col">
-                    <div class="trip" data-id="{{_id}}">Trip:{{name}}, 
-                        <button type="button" class="btn btn-danger remove-trip">Delete Trip</button>
-                        <div class="poi-container">
-                                <ul class="poi-list"></ul>
-                        </div>
-                    </div>
-                </div>
-            </div>   
-        </div>
-    </script> -->
-
-    <script id="poi-template" type="text/x-handlebars-template">
+    <!-- <script id="poi-template" type="text/x-handlebars-template">
         <div class="row">
                 <div class="col">
                     <li class="poi" data-id="{{_id}}">Title:{{name}}, Category{{category}}
@@ -206,7 +197,7 @@
                     </li>
                 </div>
             </div>
-    </script>
+    </script> -->
 
     <script id="category-template" type="text/x-handlebars-template">
         <option value="">Choose Category...</option>
@@ -241,12 +232,13 @@
                 {{#if trip.description}}
                     <p class="card-text">{{trip.description}}</p>
                 {{/if}}
+                <a id="editBtn" href="#" class="card-link" alt="Edit" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-edit"></i></a>
                 <a id="deleteBtn" href="#" class="card-link" alt="Delete"><i class="fas fa-trash-alt"></i></a>
             </div>
             <ul class="list-group list-group-flush">
                 {{#each pois}}
-                    <li class="list-group-item poi-details" data-id="{{_id}}" data-externalId="{{externalId}}">
-                        <img class="category-thumb" src="{{categoryIcon}}"> <a href="#"><b>{{name}}</b></a>
+                <li class="list-group-item poi-details" data-id="{{_id}}" data-externalId="{{externalId}}">
+                    <img class="category-thumb" src="{{categoryIcon}}"> <a class="poi-link" href="#" data-toggle="modal" data-target="#clickedResultModal"><b>{{name}}</b></a>
                         <ul class="poi-details">
                             <li><b>{{category}}</b></li>
                             <li>{{{city}}}, {{{country}}}</li>
